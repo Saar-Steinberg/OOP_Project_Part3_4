@@ -5,8 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import Model.MainManager;
-import View.MainManagerFrame;
-
 
 public class LoginFrame {
     public static void main(String[] args) {
@@ -50,19 +48,17 @@ public class LoginFrame {
             return;
         }
 
-        // בדיקה מול MainManager מהמחלקה systemDataBase
        MainManager admin = Control.systemDataBase.findMainManager(username, password);
-if (admin != null) {
-    loginFrame.dispose();
-    View.MainManagerFrame.launchMainManagerPanel();
-} else {
-    JOptionPane.showMessageDialog(null, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-}
-}
+        if (admin != null) {
+            loginFrame.dispose();
+            View.MainManagerFrame.launchMainManagerPanel();
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+        }
+        }
 
 });
 
-        // פעולה בלחיצה על יציאה
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 loginFrame.dispose();
