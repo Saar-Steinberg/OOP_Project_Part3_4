@@ -23,7 +23,6 @@ public class systemDataBase {
     private static HashMap<String, ArrayList<Order>> ordersPerSub = new HashMap<>();
 
     static {
-        // מוסיפים מנהל ראשי כברירת מחדל
         addManager(new MainManager("9001", "Maria", "Fahoum", "0500000000", "Central Perk", "system", "12345"));
     }
 
