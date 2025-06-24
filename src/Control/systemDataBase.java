@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 
-import Model.ExpressTaxi;
 import Model.MainManager;
 import Model.Manager;
 import Model.Order;
@@ -71,6 +70,16 @@ public class systemDataBase {
         return null;
     }
 
+	public static Manager findRegularManagerById(String id) {
+    for (Manager m : managers) {
+        if (!(m instanceof MainManager) && m.getId().equals(id)) {
+            return m;
+        }
+    }
+    return null;
+}
+
+
     // =================
     // Taxi Methods
     // =================
@@ -82,10 +91,27 @@ public class systemDataBase {
         }
         return taxis.add(newTaxi);
     }
+public static Taxi findTaxiByCode(String code) {
+    for (Taxi t : getTaxis()) {
+        if (t.getTaxiCode().equals(code)) {
+            return t;
+        }
+    }
+    return null;
+}
 
     public static ArrayList<Taxi> getTaxis() {
         return taxis;
     }
+
+	public static Manager findManagerById(String id) {
+    for (Manager m : getManagers()) {
+        if (m.getId().equals(id)) {
+            return m;
+        }
+    }
+    return null;
+}
 
     // ================
     // Other Getters

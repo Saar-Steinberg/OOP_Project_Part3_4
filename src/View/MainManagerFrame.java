@@ -116,6 +116,7 @@ public class MainManagerFrame {
     addManagerFrame.add(saveBtn);
     addManagerFrame.setVisible(true);
 }
+
 private static void showTaxiForm(int type) {
     Frame taxiFrame = new Frame("Add Taxi");
     taxiFrame.setSize(400, 500);
@@ -208,8 +209,10 @@ private static void showTaxiForm(int type) {
   // Adding initial data
 
  public static void loadInitialData() {
+
     systemDataBase.addManager(new MainManager("1001", "Alice", "Brown", "0521111111", "Tel Aviv", "admin", "pass"));
-    systemDataBase.addManager(new Manager("1002", "Yossi", "Green", "0522222222", "Netanya"));
+    systemDataBase.addManager(new MainManager("1002", "Lior", "Mizrahi", "0524444444", "Jerusalem", "admin2", "pass2"));
+    systemDataBase.addManager(new Manager("1003", "Yossi", "Green", "0522222222", "Netanya")); 
     systemDataBase.addManager(new Manager("1003", "Dana", "Levy", "0523333333", "Beer Sheva"));
 
     systemDataBase.addTaxi(new Taxi("T100", true, 50));
@@ -219,6 +222,32 @@ private static void showTaxiForm(int type) {
     systemDataBase.addSubscription(new Subscription("S100", "David", "Cohen", "Haifa", "0501234567"));
     systemDataBase.addSubscription(new Subscription("S101", "Roni", "Bar", "Eilat", "0509876543"));
     systemDataBase.addSubscription(new Subscription("S102", "Yael", "Mizrahi", "Ramat Gan", "0502223344"));
+
+
+
+    //TESTS
+   /*
+for (Manager m : systemDataBase.getManagers()) {
+    if (m.getId().equals("1003")) {
+        for (Taxi t : systemDataBase.getTaxis()) {
+            if (t.getTaxiCode().equals("T100")) {
+                m.addTaxi(t);
+            }
+        }
+
+        if (m.getId().equals("1003")) {
+            m.addTaxi(systemDataBase.findTaxiByCode("T200"));
+            m.addTaxi(systemDataBase.findTaxiByCode("T300"));
+
+            Order o1 = new Order("O1", "1003", 5, 6, 12, "S100", systemDataBase.findTaxiByCode("T100"), 50);
+            systemDataBase.getOrders().add(o1);
+            systemDataBase.findTaxiByCode("T100").setAvailable(false);
+            systemDataBase.findManagerById("1003").addOrder(o1);
+        }
+    }
+}
+*/
+
 }
 
 

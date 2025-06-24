@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class MainManager extends Manager{
 	private String userName;
 	private String password;
+	
 	public MainManager(String id, String firstName, String lastName, String phone, String address, ArrayList<Taxi> taxis,
 			ArrayList<Order> orders, String userName, String password) {
 		super(id, firstName, lastName, phone, address, taxis, orders);
