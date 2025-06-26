@@ -134,11 +134,16 @@ public class CreateOrderFrame extends JFrame {
                 // Create the new Order object
                 Order newOrder = new Order(orderNum, currentManager.getId(), day, month, hour,
                         selectedSub[0].getSubCode(), selectedTaxi[0], price);
-
                 // Update system data:
                 selectedTaxi[0].setAvailable(false); // Mark the taxi as unavailable
-                currentManager.addOrder(newOrder); // Add order to manager's list
-                systemDataBase.getOrders().add(newOrder); // Add order to system's global list
+                currentManager.addOrder(newOrder);   // Add order to manager's list
+
+                // Attempt to add to system database (avoid duplicates)
+                boolean added = systemDataBase.addOrder(newOrder);
+                if (!added) {
+                    JOptionPane.showMessageDialog(null, "Order number already exists. Order was not added.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 // Display success message and close dialogs
                 JOptionPane.showMessageDialog(null, "Order created successfully:\n" + newOrder.toString());

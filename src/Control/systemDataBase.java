@@ -209,6 +209,22 @@ public class systemDataBase {
         return orders;
     }
 
+	/**
+ * Adds a new order to the system if its order number is unique.
+ *
+ * @param newOrder The Order to add.
+ * @return true if the order was added successfully, false if it was null or already exists.
+ */
+	public static boolean addOrder(Order newOrder) {
+		if (newOrder == null) return false;
+		for (Order o : orders) {
+			if (o.getOrderNum().equals(newOrder.getOrderNum())) {
+				return false; // Duplicate order number
+			}
+		}
+		return orders.add(newOrder);
+	}
+
     /**
      * Retrieves the Hashtable mapping subscription codes to a list of taxis associated with them.
      *
@@ -233,6 +249,8 @@ public class systemDataBase {
      *
      * @return A string detailing the current state of the database.
      */
+
+	
     @Override
     public String toString() {
         return "systemDataBase [managers=" + managers + ", taxis=" + taxis

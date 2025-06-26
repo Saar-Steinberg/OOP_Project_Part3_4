@@ -705,23 +705,12 @@ public class MainManagerFrame {
                         Manager foundManager = systemDataBase.findManagerById(managerId); // Find manager by ID
 
                         if (foundTaxi != null && foundManager != null) {
-                            // Check if the taxi is not already assigned to another manager
-                            boolean alreadyAssigned = false;
-                            for (Manager m : systemDataBase.getManagers()) {
-                                if (m.getTaxis().contains(foundTaxi) && !m.getId().equals(managerId)) {
-                                    alreadyAssigned = true;
-                                    break;
-                                }
-                            }
-
-                            if (alreadyAssigned) {
-                                JOptionPane.showMessageDialog(null, "Taxi is already assigned to another manager.", "Assignment Failed", JOptionPane.WARNING_MESSAGE);
-                            } else if (foundManager.addTaxi(foundTaxi)) { // Attempt to assign the taxi
-                                JOptionPane.showMessageDialog(null, "Taxi assigned successfully.");
-                                assignFrame.dispose();
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Failed to assign taxi. Manager might already have this taxi.", "Assignment Failed", JOptionPane.ERROR_MESSAGE);
-                            }
+                            if (foundManager.addTaxi(foundTaxi)) {
+                            JOptionPane.showMessageDialog(null, "Taxi assigned successfully.");
+                            assignFrame.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Manager already has this taxi.", "Assignment Failed", JOptionPane.ERROR_MESSAGE);
+                        }
                         } else {
                             JOptionPane.showMessageDialog(null, "Taxi or Manager not found.", "Error", JOptionPane.ERROR_MESSAGE);
                         }
