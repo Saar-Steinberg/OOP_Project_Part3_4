@@ -15,12 +15,7 @@ import Model.IntercityTaxi;
 import java.util.ArrayList; 
 import java.util.Comparator; 
 
-/**
- * The `MainManagerFrame` class provides the graphical user interface for the Main Manager.
- * It allows the Main Manager to perform various administrative tasks such as
- * viewing subscriptions, managers, and taxis, adding new subscriptions, managers, and taxis,
- * and assigning taxis to managers.
- */
+
 public class MainManagerFrame {
 
     /**
@@ -51,8 +46,8 @@ public class MainManagerFrame {
      */
     private static void showManagerForm(boolean isMain) {
         Frame addManagerFrame = new Frame("Add " + (isMain ? "Main " : "") + "Manager");
-        addManagerFrame.setSize(400, isMain ? 500 : 400); // Adjust size based on manager type
-        addManagerFrame.setLayout(null); // Use null layout for precise component positioning
+        addManagerFrame.setSize(400, isMain ? 500 : 400); // If true 500 , else - 400
+        addManagerFrame.setLayout(null); 
 
         // Create and set bounds for common manager fields
         Label idLabel = new Label("ID:");
@@ -94,7 +89,7 @@ public class MainManagerFrame {
         }
 
         Button saveBtn = new Button("Save");
-        saveBtn.setBounds(150, isMain ? 340 : 260, 100, 30);
+        saveBtn.setBounds(150, isMain ? 340 : 260, 100, 30); // If true - 340, else - 260
 
         // Action listener for the Save button
         saveBtn.addActionListener(new ActionListener() {
@@ -319,7 +314,7 @@ public class MainManagerFrame {
 
     /**
      * Loads initial sample data into the `systemDataBase`.
-     * This includes managers, taxis, and subscriptions for demonstration or testing purposes.
+     * This includes managers, taxies, and subscriptions for demonstration or testing purposes.
      */
     public static void loadInitialData() {
         systemDataBase.addManager(new MainManager("1001", "Alice", "Brown", "0521111111", "Tel Aviv", "admin", "pass"));
@@ -334,9 +329,6 @@ public class MainManagerFrame {
         systemDataBase.addSubscription(new Subscription("S100", "David", "Cohen", "Haifa", "0501234567"));
         systemDataBase.addSubscription(new Subscription("S101", "Roni", "Bar", "Eilat", "0509876543"));
         systemDataBase.addSubscription(new Subscription("S102", "Yael", "Mizrahi", "Ramat Gan", "0502223344"));
-
-        // The commented-out 'TESTS' section suggests further initial data setup or testing logic
-        // that could be re-enabled for specific testing scenarios.
     }
 
     /**
@@ -345,7 +337,7 @@ public class MainManagerFrame {
     public static void launchMainManagerPanel() {
         Frame managerFrame = new Frame("Main Manager Panel");
         managerFrame.setSize(500, 500);
-        managerFrame.setLayout(null); // Use null layout for precise component positioning
+        managerFrame.setLayout(null); 
 
         Label title = new Label("Welcome, Main Manager");
         title.setBounds(150, 50, 250, 30);
@@ -394,10 +386,10 @@ public class MainManagerFrame {
 
         // --- Action Listeners for buttons ---
 
-        // Exit button listener
+        // Exit button Action listener
         exitBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                managerFrame.dispose(); // Close the manager panel
+                managerFrame.dispose(); 
             }
         });
 
@@ -525,9 +517,9 @@ public class MainManagerFrame {
                         chooseTypeFrame.dispose();
 
                         if (type.equals("1")) {
-                            showManagerForm(false); // Call method to show regular manager form
+                            showManagerForm(false); 
                         } else if (type.equals("2")) {
-                            showManagerForm(true); // Call method to show main manager form
+                            showManagerForm(true); 
                         } else {
                             JOptionPane.showMessageDialog(null, "Invalid input. Please enter 1 or 2.");
                         }

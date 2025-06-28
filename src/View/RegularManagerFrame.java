@@ -24,14 +24,14 @@ public class RegularManagerFrame extends JFrame {
         buttonPanel.add(changeTaxiBtn);
         add(buttonPanel, BorderLayout.CENTER);
 
-        // Listener for creating a new order
+        // Action Listener for creating a new order button
         createOrderBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new CreateOrderFrame(currentManager);
             }
         });
 
-        // Listener for changing taxi in existing order
+        // Action Listener for changing taxi in existing order button
         changeTaxiBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new ChangeTaxiFrame(currentManager);  

@@ -3,14 +3,10 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import Model.*; // Imports all classes from the Model package
-import Control.systemDataBase; // Imports the static systemDataBase for data access
+import Model.*; 
+import Control.systemDataBase; 
 
-/**
- * The `CreateOrderFrame` class provides a graphical user interface for a regular manager
- * to create a new order. It allows the manager to select a subscription and a taxi,
- * validate their availability and assignment, and then specify date/time details for the order.
- */
+
 public class CreateOrderFrame extends JFrame {
     private Manager currentManager; // The manager currently logged in and creating the order
 
@@ -22,12 +18,11 @@ public class CreateOrderFrame extends JFrame {
      * @param manager The Manager object who is creating the order.
      */
     public CreateOrderFrame(Manager manager) {
-        super("Create Order"); // Set frame title
-        this.currentManager = manager; // Store the current manager
+        super("Create Order"); 
+        this.currentManager = manager; 
 
-        setLayout(new GridLayout(4, 2, 10, 10)); // Use GridLayout for initial layout
+        setLayout(new GridLayout(4, 2, 10, 10)); 
 
-        // UI components for subscription and taxi code input
         JTextField subCodeField = new JTextField();
         JTextField taxiCodeField = new JTextField();
         JButton validateBtn = new JButton("Validate Subscription & Taxi");
@@ -40,7 +35,7 @@ public class CreateOrderFrame extends JFrame {
         add(validateBtn);
 
         // Dialog for date/time input (initially hidden)
-        JDialog orderDialog = new JDialog(this, "Order Details", true); // Modal dialog
+        JDialog orderDialog = new JDialog(this, "Order Details", true); 
         orderDialog.setSize(300, 250);
         orderDialog.setLayout(new GridLayout(4, 2, 10, 10));
         JTextField dayField = new JTextField();
@@ -128,7 +123,7 @@ public class CreateOrderFrame extends JFrame {
                 }
 
                 // Generate a new order number and get the taxi's base price
-                String orderNum = "O" + (systemDataBase.getOrders().size() + 1); // Simple sequential order number
+                String orderNum = "O" + (systemDataBase.getOrders().size() + 1); 
                 double price = selectedTaxi[0].getMinPrice();
 
                 // Create the new Order object

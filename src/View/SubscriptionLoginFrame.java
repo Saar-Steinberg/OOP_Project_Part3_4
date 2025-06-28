@@ -2,28 +2,24 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*; // For ActionEvent and ActionListener
-import Model.*; // Imports all classes from the Model package (e.g., Subscription)
-import Control.systemDataBase; // Imports the static systemDataBase for data access
+import java.awt.event.*; 
+import Model.*; 
+import Control.systemDataBase; 
 
-/**
- * The `SubscriptionLoginFrame` class provides a graphical user interface
- * for subscribers to log in using their subscription code.
- * Upon successful login, it opens the `SubscriptionPanel` for that subscriber.
- */
+
 public class SubscriptionLoginFrame extends JFrame {
     /**
      * Constructor for the `SubscriptionLoginFrame`.
      * Initializes the frame with input fields and a login button.
      */
     public SubscriptionLoginFrame() {
-        super("Subscription Login"); // Set the frame title
-        setSize(400, 150); // Set the frame size
-        setLayout(new FlowLayout()); // Use FlowLayout for simple component arrangement
+        super("Subscription Login"); 
+        setSize(400, 150); 
+        setLayout(new FlowLayout()); 
 
-        // UI components: label, text field for subscription code, and login button
+        
         JLabel label = new JLabel("Enter Subscription Code:");
-        JTextField subField = new JTextField(15); // Text field for input, with a preferred width
+        JTextField subField = new JTextField(15); 
         JButton loginBtn = new JButton("Login");
 
         // Add components to the frame
@@ -39,8 +35,8 @@ public class SubscriptionLoginFrame extends JFrame {
             // Iterate through all subscriptions in the systemDataBase to find a match
             for (Subscription s : systemDataBase.getSubscriptions()) {
                 if (s.getSubCode().equals(code)) {
-                    found = s; // If found, store it
-                    break; // Exit loop
+                    found = s; 
+                    break; 
                 }
             }
 

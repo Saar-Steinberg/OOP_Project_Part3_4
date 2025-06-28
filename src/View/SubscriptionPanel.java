@@ -24,7 +24,7 @@ public class SubscriptionPanel extends JFrame {
         add(updateDetailsBtn);
         add(showTaxiBtn);
 
-        // A. Show Orders
+        // Action Listener for show orders
        showOrdersBtn.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         StringBuilder sb = new StringBuilder();
@@ -58,7 +58,7 @@ public class SubscriptionPanel extends JFrame {
 });
 
 
-        // B. Update Personal Details
+        // Action Listener for update details
         updateDetailsBtn.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         JFrame updateFrame = new JFrame("Update My Details");
@@ -102,8 +102,8 @@ public class SubscriptionPanel extends JFrame {
 });
 
 
-        // C. Show Taxi Details
-        // C. Show Taxi Details
+
+        // Action Listener for  Show Taxi Details
 showTaxiBtn.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         String taxiCode = JOptionPane.showInputDialog(SubscriptionPanel.this, "Enter Taxi Code to view details:");
@@ -118,12 +118,11 @@ showTaxiBtn.addActionListener(new ActionListener() {
         }
 
         if (found != null) {
-            // יצירת תיבת טקסט עם הפרטים
+            
             JTextArea area = new JTextArea(found.toString());
             area.setEditable(false);
             JScrollPane scrollPane = new JScrollPane(area);
 
-            // יצירת חלון חדש להצגת הפרטים + כפתור חזרה
             JFrame taxiFrame = new JFrame("Taxi Details");
             taxiFrame.setSize(400, 250);
             taxiFrame.setLayout(new BorderLayout());

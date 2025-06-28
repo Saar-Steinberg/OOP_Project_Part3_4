@@ -3,26 +3,21 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import Model.*; // Imports all classes from the Model package
-import Control.systemDataBase; // Imports the static systemDataBase for data access
+import Model.*; 
+import Control.systemDataBase; 
 
-/**
- * The `ChangeTaxiFrame` class provides a graphical user interface for a regular manager
- * to change the assigned taxi for an existing order.
- * It allows managers to find an order by ID and then select a new taxi of a specific type.
- */
+
 public class ChangeTaxiFrame extends JFrame {
     /**
      * Constructor for the `ChangeTaxiFrame`.
      * Initializes the frame with input fields and buttons for finding and modifying orders.
-     *
      * @param manager The Manager object who is performing the taxi change.
      */
     public ChangeTaxiFrame(Manager manager) {
-        super("Change Taxi in Order"); // Set frame title
-        setLayout(new GridLayout(6, 2, 10, 10)); // Use GridLayout for arrangement
+        super("Change Taxi in Order"); 
+        setLayout(new GridLayout(6, 2, 10, 10)); 
 
-        // UI components for entering the order ID
+        
         JTextField orderIdField = new JTextField();
         JButton findOrderBtn = new JButton("Find Order");
         add(new JLabel("Enter Order ID:"));
@@ -56,7 +51,6 @@ public class ChangeTaxiFrame extends JFrame {
             }
 
             // Validate if the current taxi is a regular taxi (only regular taxis can be upgraded)
-            // It explicitly checks if it's NOT an ExpressTaxi or IntercityTaxi.
             if (!(targetOrder.getTaxi() instanceof Taxi) ||
                 targetOrder.getTaxi() instanceof ExpressTaxi ||
                 targetOrder.getTaxi() instanceof IntercityTaxi) {
@@ -64,14 +58,14 @@ public class ChangeTaxiFrame extends JFrame {
                 return;
             }
 
-            // Prompt for new taxi type (Express or Intercity)
+            // Asking for a new taxi type (Express or Intercity)
             String typeStr = JOptionPane.showInputDialog("Enter new taxi type:\n1 - Express\n2 - Intercity");
             if (typeStr == null || (!typeStr.equals("1") && !typeStr.equals("2"))) { // Check for null (cancel) or invalid input
                 JOptionPane.showMessageDialog(null, "Invalid type selection or operation cancelled.");
                 return;
             }
 
-            // Prompt for new taxi code
+            // Asking for a new taxi code
             String newTaxiCode = JOptionPane.showInputDialog("Enter new taxi code:");
             if (newTaxiCode == null || newTaxiCode.trim().isEmpty()) { // Check for null (cancel) or empty input
                 JOptionPane.showMessageDialog(null, "Taxi code cannot be empty.");
@@ -123,7 +117,6 @@ public class ChangeTaxiFrame extends JFrame {
             // 4. Update the order price based on the new taxi's minimum price.
             targetOrder.setOrderPrice(newTaxi.getMinPrice());
 
-            // Display success message and updated order details
             JOptionPane.showMessageDialog(null, "Taxi changed successfully in order:\n" + targetOrder);
             dispose(); // Close the change taxi frame
         });

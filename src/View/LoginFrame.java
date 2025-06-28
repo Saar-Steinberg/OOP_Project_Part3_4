@@ -3,7 +3,6 @@ package View;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
 import Model.MainManager;
 import Model.Manager;
 import Model.Subscription;
@@ -52,6 +51,7 @@ public class LoginFrame {
         exitButton.setForeground(Color.WHITE);
         loginFrame.add(exitButton);
 
+        // ActionListener for Login Button
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String username = userText.getText();
@@ -76,11 +76,11 @@ public class LoginFrame {
                         }
                     }
                 }
-
                 JOptionPane.showMessageDialog(null, "Invalid credentials or ID.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
         });
 
+        // ActionListener for Subscriber Button
         subscriberLoginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Frame subFrame = new Frame("Subscriber Login");
@@ -116,7 +116,8 @@ public class LoginFrame {
                 });
             }
         });
-
+        
+        // Action Listener for exit Button
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 loginFrame.dispose();
