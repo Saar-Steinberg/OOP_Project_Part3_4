@@ -3,39 +3,38 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import Model.*; // Imports all classes from the Model package
-import Control.systemDataBase; // Imports the static systemDataBase for data access
+import Model.*;
+import Control.systemDataBase;
 
-/**
- * The `ChangeTaxiFrame` class provides a graphical user interface for a regular manager
- * to change the assigned taxi for an existing order.
- * It allows managers to find an order by ID and then select a new taxi of a specific type.
- */
+// Effect: Provides a graphical user interface for a regular manager to change the assigned taxi for an existing order.
+//         It facilitates finding an order by ID and selecting a new, upgraded taxi type (Express or Intercity).
+// Output: A JFrame that allows managers to modify orders, displaying confirmation or error messages.
+
 public class ChangeTaxiFrame extends JFrame {
-    /**
-     * Constructor for the `ChangeTaxiFrame`.
-     * Initializes the frame with input fields and buttons for finding and modifying orders.
-     *
-     * @param manager The Manager object who is performing the taxi change.
-     */
+    // Effect: Initializes the frame for the taxi change operation.
+    // Output: A visible JFrame window for manager interaction.
+    //         @param manager The Manager object initiating the taxi change.
     public ChangeTaxiFrame(Manager manager) {
-        super("Change Taxi in Order"); // Set frame title
-        setLayout(new GridLayout(6, 2, 10, 10)); // Use GridLayout for arrangement
+        super("Change Taxi in Order");
+        setLayout(new GridLayout(6, 2, 10, 10));
 
-        // UI components for entering the order ID
         JTextField orderIdField = new JTextField();
-        JButton findOrderBtn = new JButton("Find Order");
+        JButton findOrderBtn = new JButton("Find Order"); // Button to initiate order search
+
         add(new JLabel("Enter Order ID:"));
         add(orderIdField);
-        add(new JLabel("")); // Empty label for spacing in grid
+        add(new JLabel(""));
         add(findOrderBtn);
 
-        // Action listener for the "Find Order" button
+        // Effect: Handles the logic when the "Find Order" button is clicked.
+        //         Performs comprehensive validation and the core order modification.
+        // Output: Updates order data in systemDataBase; displays info/error dialogs; disposes frame on success.
         findOrderBtn.addActionListener(e -> {
             String orderId = orderIdField.getText().trim();
             Order targetOrder = null;
 
-            // Search for the order by ID in the system database
+            // Effect: Searches for the specified order in the central database.
+            // Output: 'targetOrder' reference if found, otherwise 'null'.
             for (Order o : systemDataBase.getOrders()) {
                 if (o.getOrderNum().equals(orderId)) {
                     targetOrder = o;
@@ -43,20 +42,22 @@ public class ChangeTaxiFrame extends JFrame {
                 }
             }
 
-            // Validate if order was found
+            // Effect: Validates if the order exists.
+            // Output: Error message if not found.
             if (targetOrder == null) {
                 JOptionPane.showMessageDialog(null, "Order not found.");
                 return;
             }
 
-            // Validate if the current manager created this order
+            // Effect: Validates if the current manager owns this order.
+            // Output: Error message if the manager ID doesn't match the order's manager code.
             if (!targetOrder.getManagerCode().equals(manager.getId())) {
                 JOptionPane.showMessageDialog(null, "You did not create this order.");
                 return;
             }
 
-            // Validate if the current taxi is a regular taxi (only regular taxis can be upgraded)
-            // It explicitly checks if it's NOT an ExpressTaxi or IntercityTaxi.
+            // Effect: Ensures the current taxi is a regular taxi before allowing upgrade.
+            // Output: Error message if the current taxi is already Express/Intercity.
             if (!(targetOrder.getTaxi() instanceof Taxi) ||
                 targetOrder.getTaxi() instanceof ExpressTaxi ||
                 targetOrder.getTaxi() instanceof IntercityTaxi) {
@@ -64,22 +65,25 @@ public class ChangeTaxiFrame extends JFrame {
                 return;
             }
 
-            // Prompt for new taxi type (Express or Intercity)
+            // Effect: Prompts for and validates the desired new taxi type (Express or Intercity).
+            // Output: String "1" or "2" for valid input; error message and stops if invalid/cancelled.
             String typeStr = JOptionPane.showInputDialog("Enter new taxi type:\n1 - Express\n2 - Intercity");
-            if (typeStr == null || (!typeStr.equals("1") && !typeStr.equals("2"))) { // Check for null (cancel) or invalid input
+            if (typeStr == null || (!typeStr.equals("1") && !typeStr.equals("2"))) {
                 JOptionPane.showMessageDialog(null, "Invalid type selection or operation cancelled.");
                 return;
             }
 
-            // Prompt for new taxi code
+            // Effect: Prompts for and validates the new taxi's code.
+            // Output: String of taxi code; error message and stops if empty/cancelled.
             String newTaxiCode = JOptionPane.showInputDialog("Enter new taxi code:");
-            if (newTaxiCode == null || newTaxiCode.trim().isEmpty()) { // Check for null (cancel) or empty input
+            if (newTaxiCode == null || newTaxiCode.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Taxi code cannot be empty.");
                 return;
             }
 
             Taxi newTaxi = null;
-            // Search for the new taxi within the taxis assigned to THIS manager
+            // Effect: Searches for the new taxi within the **current manager's assigned taxis**.
+            // Output: 'newTaxi' reference if found under this manager, otherwise 'null'.
             for (Taxi t : manager.getTaxis()) {
                 if (t.getTaxiCode().equals(newTaxiCode.trim())) {
                     newTaxi = t;
@@ -87,19 +91,22 @@ public class ChangeTaxiFrame extends JFrame {
                 }
             }
 
-            // Validate if the new taxi was found and is assigned to this manager
+            // Effect: Validates if the new taxi was found and is assigned to this manager.
+            // Output: Error message if not found or not assigned.
             if (newTaxi == null) {
                 JOptionPane.showMessageDialog(null, "This taxi is not assigned to you or does not exist.");
                 return;
             }
 
-            // Validate if the new taxi is available and matches the selected type
+            // Effect: Validates if the new taxi is available for assignment.
+            // Output: Error message if the taxi is not available.
             if (!newTaxi.isAvailable()) {
                 JOptionPane.showMessageDialog(null, "The new taxi is not available.");
                 return;
             }
 
-            // Further validate if the new taxi matches the chosen type
+            // Effect: Cross-validates the new taxi's actual type against the user's selected type.
+            // Output: Error message if the selected taxi doesn't match the chosen type (Express/Intercity).
             if (typeStr.equals("1") && !(newTaxi instanceof ExpressTaxi)) {
                 JOptionPane.showMessageDialog(null, "Selected taxi is not an Express Taxi.");
                 return;
@@ -108,42 +115,46 @@ public class ChangeTaxiFrame extends JFrame {
                 JOptionPane.showMessageDialog(null, "Selected taxi is not an Intercity Taxi.");
                 return;
             }
-             if (newTaxi instanceof Taxi && !(newTaxi instanceof ExpressTaxi) && !(newTaxi instanceof IntercityTaxi)) {
+            // Effect: Prevents changing a regular taxi to another regular taxi (only upgrades are allowed).
+            // Output: Error message if attempting to change to a regular taxi.
+            if (newTaxi instanceof Taxi && !(newTaxi instanceof ExpressTaxi) && !(newTaxi instanceof IntercityTaxi)) {
                 JOptionPane.showMessageDialog(null, "You can only change to Express or Intercity taxis, not a regular taxi.");
                 return;
             }
 
-            // Perform the taxi change:
-            // 1. Release the old taxi by setting its availability to true.
-            targetOrder.getTaxi().setAvailable(true);
-            // 2. Mark the new taxi as occupied by setting its availability to false.
-            newTaxi.setAvailable(false);
-            // 3. Assign the new taxi to the order.
-            targetOrder.setTaxi(newTaxi);
-            // 4. Update the order price based on the new taxi's minimum price.
-            targetOrder.setOrderPrice(newTaxi.getMinPrice());
+            // Effect: Changes the taxi for the order: frees the old taxi, assigns the new one, and updates the price.
+            // Output: System's taxi and order data are updated.
+            targetOrder.getTaxi().setAvailable(true); // Release old taxi
+            newTaxi.setAvailable(false); // Occupy new taxi
+            targetOrder.setTaxi(newTaxi); // Assign new taxi to order
+            targetOrder.setOrderPrice(newTaxi.getMinPrice()); // Update order price
 
-            // Display success message and updated order details
+            // Effect: Informs the user of success and closes the frame.
+            // Output: Success message with updated order details; ChangeTaxiFrame is closed.
             JOptionPane.showMessageDialog(null, "Taxi changed successfully in order:\n" + targetOrder);
-            dispose(); // Close the change taxi frame
+            dispose();
         });
 
-        // Set frame properties
-        setSize(400, 200); // Initial size
-        setLocationRelativeTo(null); // Center the frame on screen
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Close only this frame on exit
+        // Effect: Configures basic frame properties.
+        // Output: Frame sized, centered, and set to dispose on close.
+        setSize(400, 200);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-            JButton backBtn = new JButton("Back to Manager Menu");
-            backBtn.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    dispose(); 
-                    new RegularManagerFrame(manager); 
-                }
-            });
-            add(new JLabel("")); 
-            add(backBtn);
+        JButton backBtn = new JButton("Back to Manager Menu"); // Button to return to the manager menu
+        // Effect: Handles returning to the manager menu.
+        // Output: Closes this frame and opens a new RegularManagerFrame.
+        backBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new RegularManagerFrame(manager);
+            }
+        });
+        add(new JLabel(""));
+        add(backBtn);
 
-
-        setVisible(true); // Make the frame visible
+        // Effect: Makes the frame visible.
+        // Output: The GUI window appears on screen.
+        setVisible(true);
     }
 }

@@ -2,28 +2,20 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*; // For ActionEvent and ActionListener
-import Model.*; // Imports all classes from the Model package (e.g., Subscription)
-import Control.systemDataBase; // Imports the static systemDataBase for data access
+import java.awt.event.*; 
+import Model.*; 
+import Control.systemDataBase; 
 
-/**
- * The `SubscriptionLoginFrame` class provides a graphical user interface
- * for subscribers to log in using their subscription code.
- * Upon successful login, it opens the `SubscriptionPanel` for that subscriber.
- */
 public class SubscriptionLoginFrame extends JFrame {
-    /**
-     * Constructor for the `SubscriptionLoginFrame`.
-     * Initializes the frame with input fields and a login button.
-     */
+    
     public SubscriptionLoginFrame() {
-        super("Subscription Login"); // Set the frame title
-        setSize(400, 150); // Set the frame size
-        setLayout(new FlowLayout()); // Use FlowLayout for simple component arrangement
+        super("Subscription Login"); 
+        setSize(400, 150); 
+        setLayout(new FlowLayout()); 
 
-        // UI components: label, text field for subscription code, and login button
+        // UI components for login
         JLabel label = new JLabel("Enter Subscription Code:");
-        JTextField subField = new JTextField(15); // Text field for input, with a preferred width
+        JTextField subField = new JTextField(15); 
         JButton loginBtn = new JButton("Login");
 
         // Add components to the frame
@@ -33,29 +25,29 @@ public class SubscriptionLoginFrame extends JFrame {
 
         // Action listener for the login button
         loginBtn.addActionListener(e -> {
-            String code = subField.getText().trim(); // Get the entered code, trimmed
-            Subscription found = null; // Variable to store the found subscription
+            String code = subField.getText().trim(); 
+            Subscription found = null; 
 
-            // Iterate through all subscriptions in the systemDataBase to find a match
+            // Search for the subscription code in the database
             for (Subscription s : systemDataBase.getSubscriptions()) {
                 if (s.getSubCode().equals(code)) {
-                    found = s; // If found, store it
-                    break; // Exit loop
+                    found = s; 
+                    break; 
                 }
             }
 
-            // Check if a subscription was found
+            // Handle login success or failure
             if (found != null) {
                 dispose(); // Close the login frame
                 new SubscriptionPanel(found); // Open the SubscriptionPanel for the found subscriber
             } else {
-                // Display an error message if the subscription is not found
+                // Display error for invalid subscription
                 JOptionPane.showMessageDialog(null, "Subscription not found.");
             }
         });
 
-        setLocationRelativeTo(null); // Center the frame on the screen
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit application when this frame is closed
+        setLocationRelativeTo(null); // Center the frame
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit application on close
         setVisible(true); // Make the frame visible
     }
 }

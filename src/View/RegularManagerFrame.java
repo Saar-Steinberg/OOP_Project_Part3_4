@@ -14,14 +14,18 @@ public class RegularManagerFrame extends JFrame {
 
         setLayout(new BorderLayout());
 
+        // Welcome label displaying the manager's first name
         JLabel welcomeLabel = new JLabel("Welcome, Manager " + manager.getFirstName(), SwingConstants.CENTER);
         add(welcomeLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10)); // Changed to 3 rows for the back button
         JButton createOrderBtn = new JButton("Create Order");
         JButton changeTaxiBtn = new JButton("Change Taxi in Existing Order");
+        JButton backBtn = new JButton("Back to Login");
+        
         buttonPanel.add(createOrderBtn);
         buttonPanel.add(changeTaxiBtn);
+        buttonPanel.add(backBtn); // Added back button to the panel
         add(buttonPanel, BorderLayout.CENTER);
 
         // Listener for creating a new order
@@ -38,9 +42,17 @@ public class RegularManagerFrame extends JFrame {
             }
         });
 
+        // Listener for the back to login button
+        backBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the current frame
+                LoginFrame.main(null); // Open the login frame
+            }
+        });
+
         setSize(400, 200);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Center the frame on the screen
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit application on close
         setVisible(true);
     }
 }

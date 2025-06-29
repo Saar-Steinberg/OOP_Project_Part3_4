@@ -11,250 +11,200 @@ import Model.Station;
 import Model.Subscription;
 import Model.Taxi;
 
-/**
- * The `systemDataBase` class serves as a centralized repository for managing all data within the system.
- * It holds collections of managers, taxis, stations, orders, and subscriptions, and provides static methods
- * for adding, retrieving, and searching for these entities.
- */
-public class systemDataBase {
+        // Effect: Represents the central data storage for the entire system.
+        //         Holds collections of all entities like managers, taxis, stations, orders, and subscriptions.
+        // Output: Provides static methods to interact with and manage this data globally.
+        public class systemDataBase {
 
-    // --- Data Collections ---
-    private static ArrayList<Manager> managers = new ArrayList<>();
-    private static ArrayList<Taxi> taxis = new ArrayList<>();
-    private static Hashtable<String, ArrayList<Taxi>> taxisPerSub = new Hashtable<>();
-    private static ArrayList<Station> stations = new ArrayList<>();
-    private static ArrayList<Order> orders = new ArrayList<>();
-    private static ArrayList<Subscription> subscriptions = new ArrayList<>();
-    private static HashMap<String, ArrayList<Order>> ordersPerSub = new HashMap<>();
+            // --- Data Collections ---
 
-    /**
-     * Static initializer block. This block is executed once when the class is loaded.
-     * It initializes the system by adding a default MainManager.
-     */
-    static {
-        addManager(new MainManager("9001", "Maria", "Fahoum", "0500000000", "Central Perk", "system", "12345"));
-    }
+            // Effect: Stores all manager accounts, including MainManager and regular Managers.
+            // Output: A list of Manager objects.
+            private static ArrayList<Manager> managers = new ArrayList<>();
 
-    // ====================
-    // Subscription Methods
-    // ====================
+            // Effect: Stores all registered taxi vehicles in the system.
+            // Output: A list of Taxi objects.
+            private static ArrayList<Taxi> taxis = new ArrayList<>();
 
-    /**
-     * Adds a new subscription to the system.
-     * Checks if the subscription is not null and if a subscription with the same code already exists.
-     *
-     * @param newSub The Subscription object to add.
-     * @return true if the subscription was added successfully, false otherwise (e.g., null or duplicate code).
-     */
-    public static boolean addSubscription(Subscription newSub) {
-        if (newSub == null) return false;
-        for (Subscription sub : subscriptions) {
-            if (newSub.getSubCode().equals(sub.getSubCode()))
-                return false;
-        }
-        return subscriptions.add(newSub);
-    }
+            // Effect: Maps subscription codes to a list of taxis associated with that subscription.
+            // Output: A Hashtable where keys are subscription codes (String) and values are lists of Taxi objects.
+            private static Hashtable<String, ArrayList<Taxi>> taxisPerSub = new Hashtable<>();
 
-    /**
-     * Retrieves a list of all subscriptions in the system.
-     *
-     * @return An ArrayList containing all Subscription objects.
-     */
-    public static ArrayList<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
+            // Effect: Stores all defined taxi stations in the system.
+            // Output: A list of Station objects.
+            private static ArrayList<Station> stations = new ArrayList<>();
 
-    // ================
-    // Manager Methods
-    // ================
+            // Effect: Stores all placed orders in the system.
+            // Output: A list of Order objects.
+            private static ArrayList<Order> orders = new ArrayList<>();
 
-    /**
-     * Adds a new manager to the system.
-     * Checks if the manager is not null and if a manager with the same ID already exists.
-     *
-     * @param newManager The Manager object to add.
-     * @return true if the manager was added successfully, false otherwise (e.g., null or duplicate ID).
-     */
-    public static boolean addManager(Manager newManager) {
-        if (newManager == null) return false;
-        for (Manager manager : managers) {
-            if (newManager.getId().equals(manager.getId()))
-                return false;
-        }
-        return managers.add(newManager);
-    }
+            // Effect: Stores all registered subscriptions in the system.
+            // Output: A list of Subscription objects.
+            private static ArrayList<Subscription> subscriptions = new ArrayList<>();
 
-    /**
-     * Retrieves a list of all managers in the system.
-     *
-     * @return An ArrayList containing all Manager objects.
-     */
-    public static ArrayList<Manager> getManagers() {
-        return managers;
-    }
+            // Effect: Maps subscription codes to a list of orders made under that subscription.
+            // Output: A HashMap where keys are subscription codes (String) and values are lists of Order objects.
+            private static HashMap<String, ArrayList<Order>> ordersPerSub = new HashMap<>();
 
-    /**
-     * Searches for a MainManager by username and password.
-     *
-     * @param username The username of the MainManager.
-     * @param password The password of the MainManager.
-     * @return The MainManager object if found, otherwise null.
-     */
-    public static MainManager findMainManager(String username, String password) {
-        for (Manager m : managers) {
-            if (m instanceof MainManager) {
-                MainManager mm = (MainManager) m;
-                if (mm.getUserName().equals(username) && mm.getPassword().equals(password)) {
-                    return mm;
+            // Effect: Initializes the system by adding a default MainManager upon class loading.
+            // Output: The 'managers' list contains an initial MainManager.
+            static {
+                addManager(new MainManager("9001", "Maria", "Fahoum", "0500000000", "Central Perk", "system", "12345"));
+            }
+
+            // ====================
+            // Subscription Methods
+            // ====================
+
+            // Effect: Adds a new subscription to the system if it's not null and its code is unique.
+            // Output: Returns 'true' if the subscription was added, 'false' otherwise (null or duplicate).
+            public static boolean addSubscription(Subscription newSub) {
+                if (newSub == null) return false;
+                for (Subscription sub : subscriptions) {
+                    if (newSub.getSubCode().equals(sub.getSubCode()))
+                        return false; // Subscription with this code already exists
                 }
+                return subscriptions.add(newSub);
+            }
+
+            // Effect: Retrieves the list of all subscriptions in the system.
+            // Output: An ArrayList containing all Subscription objects.
+            public static ArrayList<Subscription> getSubscriptions() {
+                return subscriptions;
+            }
+
+            // ================
+            // Manager Methods
+            // ================
+
+            // Effect: Adds a new manager to the system if it's not null and its ID is unique.
+            // Output: Returns 'true' if the manager was added, 'false' otherwise (null or duplicate ID).
+            public static boolean addManager(Manager newManager) {
+                if (newManager == null) return false;
+                for (Manager manager : managers) {
+                    if (newManager.getId().equals(manager.getId()))
+                        return false; // Manager with this ID already exists
+                }
+                return managers.add(newManager);
+            }
+
+            // Effect: Retrieves the list of all managers in the system.
+            // Output: An ArrayList containing all Manager objects (including MainManagers).
+            public static ArrayList<Manager> getManagers() {
+                return managers;
+            }
+
+            // Effect: Searches for a MainManager by their username and password for login purposes.
+            // Output: The MainManager object if found and credentials match, otherwise 'null'.
+            public static MainManager findMainManager(String username, String password) {
+                for (Manager m : managers) {
+                    if (m instanceof MainManager) {
+                        MainManager mm = (MainManager) m;
+                        if (mm.getUserName().equals(username) && mm.getPassword().equals(password)) {
+                            return mm; // Found the MainManager
+                        }
+                    }
+                }
+                return null; // MainManager not found or credentials don't match
+            }
+
+            // Effect: Searches for a regular (non-Main) manager by their ID.
+            // Output: The Manager object if found and it's not a MainManager, otherwise 'null'.
+            public static Manager findRegularManagerById(String id) {
+                for (Manager m : managers) {
+                    if (!(m instanceof MainManager) && m.getId().equals(id)) {
+                        return m; // Found a regular manager
+                    }
+                }
+                return null; // Regular manager not found
+            }
+
+            // Effect: Searches for any type of manager (Main or Regular) by their ID.
+            // Output: The Manager object if found, otherwise 'null'.
+            public static Manager findManagerById(String id) {
+                for (Manager m : getManagers()) {
+                    if (m.getId().equals(id)) {
+                        return m; // Found manager (any type)
+                    }
+                }
+                return null; // Manager not found
+            }
+
+            // =================
+            // Taxi Methods
+            // =================
+
+            // Effect: Adds a new taxi to the system if it's not null and its code is unique.
+            // Output: Returns 'true' if the taxi was added, 'false' otherwise (null or duplicate code).
+            public static boolean addTaxi(Taxi newTaxi) {
+                if (newTaxi == null) return false;
+                for (Taxi t : taxis) {
+                    if (newTaxi.getTaxiCode().equals(t.getTaxiCode()))
+                        return false; // Taxi with this code already exists
+                }
+                return taxis.add(newTaxi);
+            }
+
+            // Effect: Searches for a taxi by its unique taxi code.
+            // Output: The Taxi object if found, otherwise 'null'.
+            public static Taxi findTaxiByCode(String code) {
+                for (Taxi t : getTaxis()) {
+                    if (t.getTaxiCode().equals(code)) {
+                        return t; // Found the taxi
+                    }
+                }
+                return null; // Taxi not found
+            }
+
+            // Effect: Retrieves the list of all taxis in the system.
+            // Output: An ArrayList containing all Taxi objects.
+            public static ArrayList<Taxi> getTaxis() {
+                return taxis;
+            }
+
+            // ================
+            // Other Getters
+            // ================
+
+            // Effect: Retrieves the list of all stations in the system.
+            // Output: An ArrayList containing all Station objects.
+            public static ArrayList<Station> getStations() {
+                return stations;
+            }
+            public static ArrayList<Order> getOrders() {
+                return orders;
+            }
+
+            // Effect: Adds a new order to the system if it's not null and its order number is unique.
+            // Output: Returns 'true' if the order was added, 'false' otherwise (null or duplicate order number).
+            public static boolean addOrder(Order newOrder) {
+                if (newOrder == null) return false;
+                for (Order o : orders) {
+                    if (o.getOrderNum().equals(newOrder.getOrderNum())) {
+                        return false; // Duplicate order number
+                    }
+                }
+                return orders.add(newOrder);
+            }
+
+            // Effect: Retrieves the Hashtable mapping subscription codes to lists of associated taxis.
+            // Output: A Hashtable where keys are subscription codes (String) and values are ArrayLists of Taxi objects.
+            public static Hashtable<String, ArrayList<Taxi>> getTaxisPerSub() {
+                return taxisPerSub;
+            }
+
+            // Effect: Retrieves the HashMap mapping subscription codes to lists of associated orders.
+            // Output: A HashMap where keys are subscription codes (String) and values are ArrayLists of Order objects.
+            public static HashMap<String, ArrayList<Order>> getOrdersPerSub() {
+                return ordersPerSub;
+            }
+
+            // Effect: Generates a string representation of the systemDataBase's current state.
+            // Output: A String detailing the contents of all internal data collections for debugging.
+            @Override
+            public String toString() {
+                return "systemDataBase [managers=" + managers + ", taxis=" + taxis
+                        + ", taxisPerSub=" + taxisPerSub + ", stations=" + stations + ", orders=" + orders
+                        + ", subscriptions=" + subscriptions + ", ordersPerSub=" + ordersPerSub + "]";
             }
         }
-        return null;
-    }
-
-    /**
-     * Searches for a regular (non-Main) manager by ID.
-     *
-     * @param id The ID of the manager to find.
-     * @return The Manager object if found and it's not a MainManager, otherwise null.
-     */
-    public static Manager findRegularManagerById(String id) {
-        for (Manager m : managers) {
-            if (!(m instanceof MainManager) && m.getId().equals(id)) {
-                return m;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Searches for any manager (Main or Regular) by ID.
-     *
-     * @param id The ID of the manager to find.
-     * @return The Manager object if found, otherwise null.
-     */
-    public static Manager findManagerById(String id) {
-        for (Manager m : getManagers()) {
-            if (m.getId().equals(id)) {
-                return m;
-            }
-        }
-        return null;
-    }
-
-
-    // =================
-    // Taxi Methods
-    // =================
-
-    /**
-     * Adds a new taxi to the system.
-     * Checks if the taxi is not null and if a taxi with the same code already exists.
-     *
-     * @param newTaxi The Taxi object to add.
-     * @return true if the taxi was added successfully, false otherwise (e.g., null or duplicate code).
-     */
-    public static boolean addTaxi(Taxi newTaxi) {
-        if (newTaxi == null) return false;
-        for (Taxi t : taxis) {
-            if (newTaxi.getTaxiCode().equals(t.getTaxiCode()))
-                return false;
-        }
-        return taxis.add(newTaxi);
-    }
-
-    /**
-     * Searches for a taxi by its unique taxi code.
-     *
-     * @param code The taxi code to search for.
-     * @return The Taxi object if found, otherwise null.
-     */
-    public static Taxi findTaxiByCode(String code) {
-        for (Taxi t : getTaxis()) {
-            if (t.getTaxiCode().equals(code)) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Retrieves a list of all taxis in the system.
-     *
-     * @return An ArrayList containing all Taxi objects.
-     */
-    public static ArrayList<Taxi> getTaxis() {
-        return taxis;
-    }
-
-    // ================
-    // Other Getters
-    // ================
-
-    /**
-     * Retrieves a list of all stations in the system.
-     *
-     * @return An ArrayList containing all Station objects.
-     */
-    public static ArrayList<Station> getStations() {
-        return stations;
-    }
-
-    /**
-     * Retrieves a list of all orders in the system.
-     *
-     * @return An ArrayList containing all Order objects.
-     */
-    public static ArrayList<Order> getOrders() {
-        return orders;
-    }
-
-	/**
- * Adds a new order to the system if its order number is unique.
- *
- * @param newOrder The Order to add.
- * @return true if the order was added successfully, false if it was null or already exists.
- */
-	public static boolean addOrder(Order newOrder) {
-		if (newOrder == null) return false;
-		for (Order o : orders) {
-			if (o.getOrderNum().equals(newOrder.getOrderNum())) {
-				return false; // Duplicate order number
-			}
-		}
-		return orders.add(newOrder);
-	}
-
-    /**
-     * Retrieves the Hashtable mapping subscription codes to a list of taxis associated with them.
-     *
-     * @return A Hashtable where keys are subscription codes (String) and values are ArrayLists of Taxi objects.
-     */
-    public static Hashtable<String, ArrayList<Taxi>> getTaxisPerSub() {
-        return taxisPerSub;
-    }
-
-    /**
-     * Retrieves the HashMap mapping subscription codes to a list of orders associated with them.
-     *
-     * @return A HashMap where keys are subscription codes (String) and values are ArrayLists of Order objects.
-     */
-    public static HashMap<String, ArrayList<Order>> getOrdersPerSub() {
-        return ordersPerSub;
-    }
-
-    /**
-     * Provides a string representation of the `systemDataBase` object,
-     * listing the contents of all its data collections.
-     *
-     * @return A string detailing the current state of the database.
-     */
-
-	
-    @Override
-    public String toString() {
-        return "systemDataBase [managers=" + managers + ", taxis=" + taxis
-                + ", taxisPerSub=" + taxisPerSub + ", stations=" + stations + ", orders=" + orders
-                + ", subscriptions=" + subscriptions + ", ordersPerSub=" + ordersPerSub + "]";
-    }
-}
