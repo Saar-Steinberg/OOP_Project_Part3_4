@@ -1,0 +1,9 @@
+Taxi Code T100, Available:  true , Min Price: 50.0
+Responsible Manager: 
+
+Taxi Code T200, Available:  true , Min Price: 70.0
+Responsible Manager: 
+
+Taxi Code T300, Available:  true , Min Price: 90.0
+Responsible Manager: 
+

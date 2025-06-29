@@ -8,7 +8,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel; 
 import Control.systemDataBase;
