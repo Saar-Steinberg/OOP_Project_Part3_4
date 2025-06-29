@@ -3,6 +3,10 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel; 
 import Control.systemDataBase;
@@ -368,7 +372,7 @@ import java.util.Comparator;
                 JFrame managerFrame = new JFrame("Main Manager Panel");
                 managerFrame.setSize(500, 500);
                 managerFrame.setLayout(null);
-                managerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // מאפשר סגירה ב-X
+                managerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
 
                 JLabel title = new JLabel("Welcome, Main Manager");
                 title.setBounds(150, 30, 250, 30);

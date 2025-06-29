@@ -1,0 +1,11 @@
+S103 Sara Levi Tel-Aviv 0548889900
+S104 Donna Pinsiotty Point-Place 0547159478
+S105 Steven Hyde Point-Place 0125454644
+S106 Micheal Kelso Point-Place 061216462
+S107 Fez unknown PointPlace 0545787213
+S108 Stan Waw Basel 0524869188
+S109 Kenny De SouthPlace 0515484655
+S110 Kevin Magnussen Denmark 08475465768
+S111 Ross Geller New-York 015485463458
+S112 Red Forman Point-Place 0484658462
+S113 Kyle Junior EastPark 05214545643
