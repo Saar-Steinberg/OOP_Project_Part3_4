@@ -970,11 +970,51 @@ public class MainManagerFrame {
                         }
                     }
                 }
+            }
+        });
+        //Action Listener for Download Taxies button
+        downloadTaxiesBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                //Sort Taxies by code
+                ArrayList<Taxi> sortedTaxies = systemDataBase.getTaxis().stream().sorted((t1,t2) -> t1.getTaxiCode().compareTo(t2.getTaxiCode())).collect(Collectors.toCollection(ArrayList::new));
                 
+                ArrayList<Manager> allManagers = systemDataBase.getManagers();
 
-
-
-                
+                BufferedWriter bw = null;
+                try{
+                    bw = new BufferedWriter(new FileWriter("taxi.txt"));
+                    for(Taxi t : sortedTaxies){
+                        bw.write("Taxi Code " + t.getTaxiCode() + ", Available:  " + t.isAvailable() + " , Min Price: " + t.getMinPrice());
+                        bw.newLine();
+                        bw.write("Responsible Manager: ");
+                        bw.newLine();
+                        for(Manager m: allManagers){
+                            for(Taxi mTaxi : m.getTaxis()){
+                                if(mTaxi.getTaxiCode().equals(t.getTaxiCode())){
+                                    bw.write("Manager: " + m.getId() +  " , " + m.getFirstName());
+                                    bw.newLine();
+                                    break;
+                                }       
+                            }
+                        }
+                        bw.newLine();
+                    }
+                    JOptionPane.showMessageDialog(null, "Taxis and their managers saved to file successfully!");
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if (bw != null) {
+                        try{
+                            bw.close();
+                        }
+                        catch(IOException closeEx){
+                            closeEx.printStackTrace();
+                        }
+                    }
+                }
             }
         });
     }
