@@ -152,9 +152,40 @@ public class LoginFrame {
                                 return;
                             }
                         }
-                        // Effect: Displays error if subscription code is not found.
-                        // Output: Error dialog.
-                        JOptionPane.showMessageDialog(null, "Subscription not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                        //If Subscriber was not found - search in members.txt
+                        BufferedReader br = null;
+                        try{
+                            br = new BufferedReader(new FileReader("members.txt"));
+                            String line;
+                            while((line = br.readLine()) != null){
+                                String[] parts = line.split(" ");
+                                if(subCode.equals(parts[0])){
+                                    Subscription newSubFromFile = new Subscription(parts[0], parts[1], parts[2], parts[3], parts[4]);
+                                    systemDataBase.addSubscription(newSubFromFile);
+                                    subFrame.dispose();
+                                    loginFrame.dispose();
+                                    new SubscriptionPanel(newSubFromFile);
+                                    return;
+                                }
+                            }
+                            
+                        }
+                        catch(IOException e){
+                            e.printStackTrace();
+                            JOptionPane.showMessageDialog(null, "Error reading system file.");
+                        }
+                        finally{
+                            if(br != null){
+                                try{
+                                    br.close();
+                                }
+                                catch(IOException exe){
+                                    exe.printStackTrace();
+
+                                }
+                            }
+                        }
+                        JOptionPane.showMessageDialog(subFrame, "Subscription not found.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 });
             }

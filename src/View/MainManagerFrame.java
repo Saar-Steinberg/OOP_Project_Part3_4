@@ -4,35 +4,37 @@ package View;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel; 
 import Control.systemDataBase;
 import Model.Subscription; 
-import Model.Manager; 
+import Model.Manager;
+import Model.Order;
 import Model.MainManager; 
 import Model.Taxi; 
 import Model.ExpressTaxi; 
 import Model.IntercityTaxi; 
 import java.util.ArrayList; 
 import java.util.Comparator; 
+import java.util.stream.Collectors; 
+
+
+
+public class MainManagerFrame {
 
     /**
-     * The `MainManagerFrame` class provides the graphical user interface for the Main Manager.
-     * It allows the Main Manager to perform various administrative tasks such as
-     * viewing subscriptions, managers, and taxis, adding new subscriptions, managers, and taxis,
-     * and assigning taxis to managers.
+     * Helper method to check if a string contains only digits.
+     *
+     * @param input The string to check.
+     * @return true if the string contains only digits, false otherwise.
      */
-        public class MainManagerFrame {
-
-        
-            // This helper method checks if the given string consists solely of digits using a regular expression.
-
-            private static boolean isOnlyDigits(String input) {
-                return input.matches("\\d+");
-            }
+    private static boolean isOnlyDigits(String input) {
+        return input.matches("\\d+");
+    }
 
             // This helper method verifies if the provided string contains only alphabetic characters (a-z, A-Z) using a regular expression.
             private static boolean isOnlyLetters(String input) {
@@ -409,15 +411,46 @@ import java.util.Comparator;
                 addTaxiBtn.setBackground(Color.LIGHT_GRAY);
                 managerFrame.add(addTaxiBtn);
 
-                JButton assignTaxiBtn = new JButton("Assign Taxi to Manager");
-                assignTaxiBtn.setBounds(150, 340, 200, 30);
-                assignTaxiBtn.setBackground(Color.LIGHT_GRAY);
-                managerFrame.add(assignTaxiBtn);
+        JButton assignTaxiBtn = new JButton("Assign Taxi to Manager");
+        assignTaxiBtn.setBounds(150, 340, 200, 30);
+        assignTaxiBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(assignTaxiBtn);
 
-                JButton exitBtn = new JButton("Exit");
-                exitBtn.setBounds(150, 400, 200, 30);
-                exitBtn.setBackground(Color.LIGHT_GRAY);
-                managerFrame.add(exitBtn);
+        JButton loadManagersBtn = new JButton("Load All Managers");
+        loadManagersBtn.setBounds(150, 380, 200, 30);
+        loadManagersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(loadManagersBtn);
+
+        JButton loadSubscribersBtn = new JButton("Load All Subscribers");
+        loadSubscribersBtn.setBounds(150, 420, 200, 30);
+        loadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(loadSubscribersBtn);
+
+        JButton downloadManagersBtn = new JButton("Download All Regular Managers");
+        downloadManagersBtn.setBounds(150, 460, 200, 30);
+        downloadManagersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(downloadManagersBtn);
+
+        JButton downloadSubscribersBtn = new JButton("Download All Subscribers");
+        downloadSubscribersBtn.setBounds(150, 500, 200, 30);
+        downloadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(downloadSubscribersBtn);
+
+        JButton downloadOrdersBtn = new JButton("Download All Orders");
+        downloadOrdersBtn.setBounds(150, 540, 200, 30);
+        downloadOrdersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(downloadOrdersBtn);
+
+        JButton downloadTaxiesBtn = new JButton("Download All Taxies");
+        downloadTaxiesBtn.setBounds(150, 580, 200, 30);
+        downloadTaxiesBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(downloadTaxiesBtn);
+
+        
+        JButton exitBtn = new JButton("Exit");
+        exitBtn.setBounds(150, 620, 200, 30);
+        exitBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(exitBtn);
 
                 JButton backToLoginBtn = new JButton("Back to Login");
                 backToLoginBtn.setBounds(150, 440, 200, 30);
@@ -776,17 +809,269 @@ import java.util.Comparator;
                     }
                 });
 
-                managerFrame.setVisible(true); 
+        managerFrame.setVisible(true); // Make the main manager panel visible
+
+
+        //Action Listener for Load Manager's Button
+        loadManagersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                BufferedReader br = null;
+                try{
+                    br = new BufferedReader(new FileReader("SystemManagers.txt"));
+                    String line;
+                    while((line = br.readLine()) != null){
+                        String [] parts = line.split(" ");
+                        if(parts[0].equals("R") && parts.length >= 6){ // Means regular Manager
+                            Manager newManager = new Manager(parts[1], parts[2], parts[3], parts[5], parts[4]);
+                            boolean added = systemDataBase.addManager(newManager);
+                            if(added){
+                                System.out.println("Manager " + parts[2] + "Added Succesfully");
+                            }
+                            else{
+                                System.out.println("Manager " + parts[2] + "Already exists");
+                            }
+                        }
+                        else if(parts[0].equals("M") && parts.length >= 8){ // Means main manager
+                            MainManager newMainManager = new MainManager(parts[1],parts[2],parts[3],parts[5], parts[4], parts[6], parts[7]);
+                            boolean added = systemDataBase.addManager(newMainManager);
+                            if(added){
+                                System.out.println("Main manager " + parts[2] + "Added succesfully");
+                            }
+                            else{
+                                System.out.println("Main manager " + parts[2] + "Already exists");
+                            }
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, "Finished loading managers from file.");
+                }
+                catch(IOException exe){
+                    exe.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error reading file: " + exe.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(br != null){
+                        try{
+                            br.close();
+                        }
+                        catch(IOException ioE){
+                            ioE.printStackTrace();
+                        }
+                    }
+                }
+                
+            }
+        });
+
+        //Action Listener for Load Subscribers Button
+        loadSubscribersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                BufferedReader br = null;
+                try{
+                    br = new BufferedReader(new FileReader("members.txt"));
+                    String line;
+                    while((line = br.readLine()) != null){
+                        String [] parts = line.split(" ");
+                        if(parts.length != 5)
+                            JOptionPane.showMessageDialog(null, "The member's info is not valid", "Member Adding Failed", JOptionPane.ERROR_MESSAGE);
+                        else{
+                            Subscription newSubscription = new Subscription(parts[0], parts[1], parts[2], parts[3], parts[4]);
+                            boolean added = systemDataBase.addSubscription(newSubscription);
+                            if(added)
+                                System.out.println("Subscriber " + parts[1] + "Added Succesfully");
+                            else
+                                System.out.println("Failed to add " + parts[1] );
+                            
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, "Finished loading members from file.");
+
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error reading file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(br != null){
+                        try{
+                            br.close();
+                        }
+                        catch(IOException exception){
+                            exception.printStackTrace();
+                        }
+                            
+                    }
+                }
+                
+            }
+        });
+
+        //Action Listener for Download Regular Managers button
+        downloadManagersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                // Sort the managers by ID
+                ArrayList <Manager> allManagers = systemDataBase.getManagers();
+                ArrayList <Manager> sortedRegularManagers = allManagers.stream().filter(m -> !(m instanceof MainManager)).sorted((m1,m2) -> m1.getId().compareTo(m2.getId())).collect(Collectors.toCollection(ArrayList::new));
+
+                //Writing and overiding in file
+                BufferedWriter bw = null;
+                try{
+                    bw = new BufferedWriter(new FileWriter("SystemManagers.txt"));
+                    for(Manager m : sortedRegularManagers){
+                        String line = "R " + m.getId() + " " + m.getFirstName() + " " + m.getLastName() + " " + m.getAddress() + " " + m.getPhone();
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                    JOptionPane.showMessageDialog(null, "Managers saved to file successfully!");
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();;
+                    JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(bw != null){
+                        try{
+                            bw.close();
+                        }
+                        catch(IOException closeEx){
+                            closeEx.printStackTrace();
+                        }
+                    }
+                }
 
             }
+        });
+        // Action Listener for Download Subscribers Button
+        downloadSubscribersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                // Sort subscriptions by Last Name
+                ArrayList <Subscription> allSubscriptions = systemDataBase.getSubscriptions();
+                ArrayList <Subscription> sortedSubscriptions = allSubscriptions.stream().sorted((s1,s2) -> s1.getLastName().compareTo(s2.getLastName())).collect(Collectors.toCollection(ArrayList::new));
 
-            
-            
-            
-        private static void showTable(String title, String[] columns, String[][] data) {
-            JFrame frame = new JFrame(title);
-            frame.setSize(600, 450);
-            frame.setLayout(new BorderLayout());
+                //Writing and Overiding in file
+                BufferedWriter bw  = null;
+                try{
+                    bw = new BufferedWriter(new FileWriter("members.txt"));
+                    for(Subscription s : sortedSubscriptions){
+                        String line = s.getSubCode() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getAddress() + " " + s.getPhone();
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                    JOptionPane.showMessageDialog(null, "Subscribers saved to file successfully!");
+
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();;
+                    JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(bw != null){
+                        try{
+                            bw.close();
+                        }
+                        catch(IOException closeEx){
+                            closeEx.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        // Action Listener for Download Orders Button
+        downloadOrdersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+
+                //Sort all orders by orderNum
+                ArrayList<Order> allOrders = systemDataBase.getOrders();
+                ArrayList<Order> sortedOrders = allOrders.stream().sorted((o1,o2) -> o1.getOrderNum().compareTo(o2.getOrderNum())).collect(Collectors.toCollection(ArrayList::new));
+
+                //Writing and Overiding in file
+                BufferedWriter bw  = null;
+                try{
+                    bw = new BufferedWriter(new FileWriter("orders.txt"));
+                    for(Order o : sortedOrders){
+                        String line = o.getSubCode() + " " + o.getOrderNum() + " " + o.getManagerCode() + " " + o.getDay() + " " + o.getHour() + " " + o.getMonth() + " " + o.getOrderPrice() + " " + o.getTaxi().getTaxiCode();
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                    JOptionPane.showMessageDialog(null, "Orders saved to file successfully!");
+
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();;
+                    JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(bw != null){
+                        try{
+                            bw.close();
+                        }
+                        catch(IOException closeEx){
+                            closeEx.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        //Action Listener for Download Taxies button
+        downloadTaxiesBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                //Sort Taxies by code
+                ArrayList<Taxi> sortedTaxies = systemDataBase.getTaxis().stream().sorted((t1,t2) -> t1.getTaxiCode().compareTo(t2.getTaxiCode())).collect(Collectors.toCollection(ArrayList::new));
+                
+                ArrayList<Manager> allManagers = systemDataBase.getManagers();
+
+                BufferedWriter bw = null;
+                try{
+                    bw = new BufferedWriter(new FileWriter("taxi.txt"));
+                    for(Taxi t : sortedTaxies){
+                        bw.write("Taxi Code " + t.getTaxiCode() + ", Available:  " + t.isAvailable() + " , Min Price: " + t.getMinPrice());
+                        bw.newLine();
+                        bw.write("Responsible Manager: ");
+                        bw.newLine();
+                        for(Manager m: allManagers){
+                            for(Taxi mTaxi : m.getTaxis()){
+                                if(mTaxi.getTaxiCode().equals(t.getTaxiCode())){
+                                    bw.write("Manager: " + m.getId() +  " , " + m.getFirstName());
+                                    bw.newLine();
+                                    break;
+                                }       
+                            }
+                        }
+                        bw.newLine();
+                    }
+                    JOptionPane.showMessageDialog(null, "Taxis and their managers saved to file successfully!");
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if (bw != null) {
+                        try{
+                            bw.close();
+                        }
+                        catch(IOException closeEx){
+                            closeEx.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    
+    /**
+     * Helper method to display data in a new JFrame containing a JTable.
+     * This is used to show lists of subscriptions, managers, or taxis.
+     *
+     * @param title The title for the table window.
+     * @param columns An array of strings representing the column headers.
+     * @param data A 2D array of strings containing the table data.
+     */
+ private static void showTable(String title, String[] columns, String[][] data) {
+    JFrame frame = new JFrame(title);
+    frame.setSize(600, 450);
+    frame.setLayout(new BorderLayout());
 
             JTable table = new JTable(new DefaultTableModel(data, columns));
             JScrollPane scrollPane = new JScrollPane(table);
