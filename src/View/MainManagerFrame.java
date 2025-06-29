@@ -4,7 +4,9 @@ package View;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -17,7 +19,8 @@ import Model.Taxi;
 import Model.ExpressTaxi; 
 import Model.IntercityTaxi; 
 import java.util.ArrayList; 
-import java.util.Comparator; 
+import java.util.Comparator;
+import java.util.stream.Collectors; 
 
 
 public class MainManagerFrame {
@@ -393,9 +396,29 @@ public class MainManagerFrame {
         loadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
         managerFrame.add(loadSubscribersBtn);
 
+        JButton downloadManagersBtn = new JButton("Download All Regular Managers");
+        downloadManagersBtn.setBounds(150, 460, 200, 30);
+        downloadManagersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(downloadManagersBtn);
 
+        JButton downloadSubscribersBtn = new JButton("Download All Subscribers");
+        downloadSubscribersBtn.setBounds(150, 500, 200, 30);
+        downloadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(downloadSubscribersBtn);
+
+        JButton downloadOrdersBtn = new JButton("Download All Orders");
+        downloadOrdersBtn.setBounds(150, 540, 200, 30);
+        downloadOrdersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(downloadOrdersBtn);
+
+        JButton downloadTaxiesBtn = new JButton("Download All Taxies");
+        downloadTaxiesBtn.setBounds(150, 580, 200, 30);
+        downloadTaxiesBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(downloadTaxiesBtn);
+
+        
         JButton exitBtn = new JButton("Exit");
-        exitBtn.setBounds(150, 460, 200, 30);
+        exitBtn.setBounds(150, 620, 200, 30);
         exitBtn.setBackground(Color.LIGHT_GRAY);
         managerFrame.add(exitBtn);
 
@@ -838,12 +861,89 @@ public class MainManagerFrame {
                             
                     }
                 }
+                
             }
         });
 
-        
-        
+        //Action Listener for Download Regular Managers button
+        downloadManagersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                // Sort the managers by ID
+                ArrayList <Manager> allManagers = systemDataBase.getManagers();
+                ArrayList <Manager> sortedRegularManagers = allManagers.stream().filter(m -> !(m instanceof MainManager)).sorted((m1,m2) -> m1.getId().compareTo(m2.getId())).collect(Collectors.toCollection(ArrayList::new));
+
+                //Writing and overiding in file
+                BufferedWriter bw = null;
+                try{
+                    bw = new BufferedWriter(new FileWriter("SystemManagers.txt"));
+                    for(Manager m : sortedRegularManagers){
+                        String line = "R " + m.getId() + " " + m.getFirstName() + " " + m.getLastName() + " " + m.getAddress() + " " + m.getPhone();
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                    JOptionPane.showMessageDialog(null, "Managers saved to file successfully!");
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();;
+                    JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(bw != null){
+                        try{
+                            bw.close();
+                        }
+                        catch(IOException closeEx){
+                            closeEx.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        });
+        // Action Listener for Download Subscribers Button
+        downloadSubscribersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                // Sort subscriptions by Last Name
+                ArrayList <Subscription> allSubscriptions = systemDataBase.getSubscriptions();
+                ArrayList <Subscription> sortedSubscriptions = allSubscriptions.stream().sorted((s1,s2) -> s1.getLastName().compareTo(s2.getLastName())).collect(Collectors.toCollection(ArrayList::new));
+
+                //Writing and Overiding in file
+                BufferedWriter bw  = null;
+                try{
+                    bw = new BufferedWriter(new FileWriter("members.txt"));
+                    for(Subscription s : sortedSubscriptions){
+                        String line = s.getSubCode() + " " + s.getFirstName() + " " + s.getLastName() + " " + s.getAddress() + " " + s.getPhone();
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                    JOptionPane.showMessageDialog(null, "Subscribers saved to file successfully!");
+
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();;
+                    JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(bw != null){
+                        try{
+                            bw.close();
+                        }
+                        catch(IOException closeEx){
+                            closeEx.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+        downloadOrdersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                
+            }
+        });
     }
+
+
     
     /**
      * Helper method to display data in a new JFrame containing a JTable.
