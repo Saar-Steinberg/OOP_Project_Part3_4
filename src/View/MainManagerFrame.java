@@ -370,93 +370,110 @@ public class MainManagerFrame {
             /**
              * Launches the main panel for the Main Manager, providing buttons for various administrative functions.
              */
-            public static void launchMainManagerPanel() {
-                JFrame managerFrame = new JFrame("Main Manager Panel");
-                managerFrame.setSize(500, 500);
-                managerFrame.setLayout(null);
-                managerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+ public static void launchMainManagerPanel() {
+    JFrame managerFrame = new JFrame("Main Manager Panel");
+    managerFrame.setSize(500, 750);
+    managerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                JLabel title = new JLabel("Welcome, Main Manager");
-                title.setBounds(150, 30, 250, 30);
-                managerFrame.add(title);
+    JPanel contentPanel = new JPanel();
+    contentPanel.setLayout(null);
+    contentPanel.setPreferredSize(new Dimension(500, 900)); // מספיק מקום לכל הכפתורים
 
-                // Buttons for various actions
-                JButton showSubscriptionsBtn = new JButton("Show Subscriptions");
-                showSubscriptionsBtn.setBounds(150, 100, 200, 30);
-                showSubscriptionsBtn.setBackground(Color.LIGHT_GRAY);
-                managerFrame.add(showSubscriptionsBtn);
+    JLabel title = new JLabel("Welcome, Main Manager");
+    title.setBounds(150, 30, 250, 30);
+    contentPanel.add(title);
 
-                JButton showManagersBtn = new JButton("Show Managers");
-                showManagersBtn.setBounds(150, 140, 200, 30);
-                showManagersBtn.setBackground(Color.LIGHT_GRAY);
-                managerFrame.add(showManagersBtn);
+    int y = 100;
+    int spacing = 40;
 
-                JButton showTaxisBtn = new JButton("Show Taxis");
-                showTaxisBtn.setBounds(150, 180, 200, 30);
-                showTaxisBtn.setBackground(Color.LIGHT_GRAY);
-                managerFrame.add(showTaxisBtn);
+    JButton showSubscriptionsBtn = new JButton("Show Subscriptions");
+    showSubscriptionsBtn.setBounds(150, y, 200, 30);
+    contentPanel.add(showSubscriptionsBtn);
 
-                JButton addSubscriptionBtn = new JButton("Add Subscription");
-                addSubscriptionBtn.setBounds(150, 220, 200, 30);
-                addSubscriptionBtn.setBackground(Color.LIGHT_GRAY);
-                managerFrame.add(addSubscriptionBtn);
+    JButton showManagersBtn = new JButton("Show Managers");
+    showManagersBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(showManagersBtn);
 
-                JButton addManagerBtn = new JButton("Add Manager");
-                addManagerBtn.setBounds(150, 260, 200, 30);
-                addManagerBtn.setBackground(Color.LIGHT_GRAY);
-                managerFrame.add(addManagerBtn);
+    JButton showTaxisBtn = new JButton("Show Taxis");
+    showTaxisBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(showTaxisBtn);
 
-                JButton addTaxiBtn = new JButton("Add Taxi");
-                addTaxiBtn.setBounds(150, 300, 200, 30);
-                addTaxiBtn.setBackground(Color.LIGHT_GRAY);
-                managerFrame.add(addTaxiBtn);
+    JButton addSubscriptionBtn = new JButton("Add Subscription");
+    addSubscriptionBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(addSubscriptionBtn);
 
-        JButton assignTaxiBtn = new JButton("Assign Taxi to Manager");
-        assignTaxiBtn.setBounds(150, 340, 200, 30);
-        assignTaxiBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(assignTaxiBtn);
+    JButton addManagerBtn = new JButton("Add Manager");
+    addManagerBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(addManagerBtn);
 
-        JButton loadManagersBtn = new JButton("Load All Managers");
-        loadManagersBtn.setBounds(150, 380, 200, 30);
-        loadManagersBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(loadManagersBtn);
+    JButton addTaxiBtn = new JButton("Add Taxi");
+    addTaxiBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(addTaxiBtn);
 
-        JButton loadSubscribersBtn = new JButton("Load All Subscribers");
-        loadSubscribersBtn.setBounds(150, 420, 200, 30);
-        loadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(loadSubscribersBtn);
+    JButton assignTaxiBtn = new JButton("Assign Taxi to Manager");
+    assignTaxiBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(assignTaxiBtn);
 
-        JButton downloadManagersBtn = new JButton("Download All Regular Managers");
-        downloadManagersBtn.setBounds(150, 460, 200, 30);
-        downloadManagersBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(downloadManagersBtn);
+    JButton loadManagersBtn = new JButton("Load All Managers");
+    loadManagersBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(loadManagersBtn);
 
-        JButton downloadSubscribersBtn = new JButton("Download All Subscribers");
-        downloadSubscribersBtn.setBounds(150, 500, 200, 30);
-        downloadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(downloadSubscribersBtn);
+    JButton loadSubscribersBtn = new JButton("Load All Subscribers");
+    loadSubscribersBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(loadSubscribersBtn);
 
-        JButton downloadOrdersBtn = new JButton("Download All Orders");
-        downloadOrdersBtn.setBounds(150, 540, 200, 30);
-        downloadOrdersBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(downloadOrdersBtn);
+    JButton downloadManagersBtn = new JButton("Download All Regular Managers");
+    downloadManagersBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(downloadManagersBtn);
 
-        JButton downloadTaxiesBtn = new JButton("Download All Taxies");
-        downloadTaxiesBtn.setBounds(150, 580, 200, 30);
-        downloadTaxiesBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(downloadTaxiesBtn);
+    JButton downloadSubscribersBtn = new JButton("Download All Subscribers");
+    downloadSubscribersBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(downloadSubscribersBtn);
 
-        
-        JButton exitBtn = new JButton("Exit");
-        exitBtn.setBounds(150, 620, 200, 30);
-        exitBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(exitBtn);
+    JButton downloadOrdersBtn = new JButton("Download All Orders");
+    downloadOrdersBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(downloadOrdersBtn);
 
-                JButton backToLoginBtn = new JButton("Back to Login");
-                backToLoginBtn.setBounds(150, 440, 200, 30);
-                backToLoginBtn.setBackground(Color.GRAY);
-                managerFrame.add(backToLoginBtn);
+    JButton downloadTaxiesBtn = new JButton("Download All Taxies");
+    downloadTaxiesBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(downloadTaxiesBtn);
 
+    JButton backToLoginBtn = new JButton("Back to Login");
+    backToLoginBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(backToLoginBtn);
+
+    JButton exitBtn = new JButton("Exit");
+    exitBtn.setBounds(150, y += spacing, 200, 30);
+    contentPanel.add(exitBtn);
+
+    JScrollPane scrollPane = new JScrollPane(contentPanel);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+    managerFrame.add(scrollPane);
+    managerFrame.setVisible(true);
+
+
+    showSubscriptionsBtn.setBackground(Color.LIGHT_GRAY);
+showManagersBtn.setBackground(Color.LIGHT_GRAY);
+showTaxisBtn.setBackground(Color.LIGHT_GRAY);
+loadManagersBtn.setBackground(Color.LIGHT_GRAY);
+loadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
+
+addSubscriptionBtn.setBackground(new Color(204, 255, 204)); 
+addManagerBtn.setBackground(new Color(204, 255, 204));
+addTaxiBtn.setBackground(new Color(204, 255, 204));
+assignTaxiBtn.setBackground(new Color(204, 255, 204));
+
+downloadManagersBtn.setBackground(new Color(204, 229, 255)); 
+downloadSubscribersBtn.setBackground(new Color(204, 229, 255));
+downloadOrdersBtn.setBackground(new Color(204, 229, 255));
+downloadTaxiesBtn.setBackground(new Color(204, 229, 255));
+
+backToLoginBtn.setBackground(new Color(255, 204, 204)); 
+exitBtn.setBackground(new Color(255, 204, 204));
+     
+                
                 // --- Action Listeners for buttons ---
 
                 // Exit button listener
