@@ -3,6 +3,10 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel; 
 import Control.systemDataBase;
@@ -384,7 +388,13 @@ public class MainManagerFrame {
         exitBtn.setBackground(Color.LIGHT_GRAY);
         managerFrame.add(exitBtn);
 
+        JButton loadManagersBtn = new JButton("Get All Managers");
+        loadManagersBtn.setBounds(150, 380, 200, 30);
+        loadManagersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(loadManagersBtn);
+
         // --- Action Listeners for buttons ---
+
 
         // Exit button Action listener
         exitBtn.addActionListener(new ActionListener() {
@@ -732,10 +742,59 @@ public class MainManagerFrame {
         managerFrame.setVisible(true); // Make the main manager panel visible
 
 
+        //Action Listener for Load Manager's Button
+        loadManagersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                BufferedReader br = null;
+                try{
+                    br = new BufferedReader(new FileReader("SystemManagers.txt"));
+                    String line;
+                    while((line = br.readLine()) != null){
+                        String [] parts = line.split(" ");
+                        if(parts[0].equals("R") && parts.length >= 6){ // Means regular Manager
+                            Manager newManager = new Manager(parts[1], parts[2], parts[3], parts[5], parts[4]);
+                            boolean added = systemDataBase.addManager(newManager);
+                            if(added){
+                                System.out.println("Manager " + parts[2] + "Added Succesfully");
+                            }
+                            else{
+                                System.out.println("Manager " + parts[2] + "Already exists");
+                            }
+                        }
+                        else if(parts[0].equals("M") && parts.length >= 8){ // Means main manager
+                            MainManager newMainManager = new MainManager(parts[1],parts[2],parts[3],parts[5], parts[4], parts[6], parts[7]);
+                            boolean added = systemDataBase.addManager(newMainManager);
+                            if(added){
+                                System.out.println("Main manager " + parts[2] + "Added succesfully");
+                            }
+                            else{
+                                System.out.println("Main manager " + parts[2] + "Already exists");
+                            }
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, "Finished loading managers from file.");
+                }
+                catch(IOException exe){
+                    exe.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error reading file: " + exe.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(br != null){
+                        try{
+                            br.close();
+                        }
+                        catch(IOException ioE){
+                            ioE.printStackTrace();
+                        }
+                    }
+                }
+                
+            }
+        });
+
         
         
     }
-
     
     /**
      * Helper method to display data in a new JFrame containing a JTable.

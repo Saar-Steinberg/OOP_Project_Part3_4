@@ -1,0 +1,5 @@
+M 9001 Maria Fahoum 0500000000 Central-Perk system 12345
+R 2090 Saar Steinberg 05412654871 Hanamal 
+R 2080 Hadar Drin 054787164872  Haifa
+M 5487 Eric Cartmen 05269769648 Southpark kyleee 445645
+R 1239 Eric Forman 05415746548  PointPlace 
