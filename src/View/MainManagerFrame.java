@@ -383,15 +383,22 @@ public class MainManagerFrame {
         assignTaxiBtn.setBackground(Color.LIGHT_GRAY);
         managerFrame.add(assignTaxiBtn);
 
-        JButton exitBtn = new JButton("Exit");
-        exitBtn.setBounds(150, 400, 200, 30);
-        exitBtn.setBackground(Color.LIGHT_GRAY);
-        managerFrame.add(exitBtn);
-
-        JButton loadManagersBtn = new JButton("Get All Managers");
+        JButton loadManagersBtn = new JButton("Load All Managers");
         loadManagersBtn.setBounds(150, 380, 200, 30);
         loadManagersBtn.setBackground(Color.LIGHT_GRAY);
         managerFrame.add(loadManagersBtn);
+
+        JButton loadSubscribersBtn = new JButton("Load All Subscribers");
+        loadSubscribersBtn.setBounds(150, 420, 200, 30);
+        loadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(loadSubscribersBtn);
+
+
+        JButton exitBtn = new JButton("Exit");
+        exitBtn.setBounds(150, 460, 200, 30);
+        exitBtn.setBackground(Color.LIGHT_GRAY);
+        managerFrame.add(exitBtn);
+
 
         // --- Action Listeners for buttons ---
 
@@ -789,6 +796,48 @@ public class MainManagerFrame {
                     }
                 }
                 
+            }
+        });
+
+        //Action Listener for Load Subscribers Button
+        loadSubscribersBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                BufferedReader br = null;
+                try{
+                    br = new BufferedReader(new FileReader("members.txt"));
+                    String line;
+                    while((line = br.readLine()) != null){
+                        String [] parts = line.split(" ");
+                        if(parts.length != 5)
+                            JOptionPane.showMessageDialog(null, "The member's info is not valid", "Member Adding Failed", JOptionPane.ERROR_MESSAGE);
+                        else{
+                            Subscription newSubscription = new Subscription(parts[0], parts[1], parts[2], parts[3], parts[4]);
+                            boolean added = systemDataBase.addSubscription(newSubscription);
+                            if(added)
+                                System.out.println("Subscriber " + parts[1] + "Added Succesfully");
+                            else
+                                System.out.println("Failed to add " + parts[1] );
+                            
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, "Finished loading members from file.");
+
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error reading file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(br != null){
+                        try{
+                            br.close();
+                        }
+                        catch(IOException exception){
+                            exception.printStackTrace();
+                        }
+                            
+                    }
+                }
             }
         });
 

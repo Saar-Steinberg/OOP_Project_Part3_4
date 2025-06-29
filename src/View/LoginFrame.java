@@ -2,6 +2,11 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+
 import javax.swing.*;
 import Model.MainManager;
 import Model.Manager;
@@ -57,26 +62,67 @@ public class LoginFrame {
                 String username = userText.getText();
                 String password = passText.getText();
 
-                MainManager admin = systemDataBase.findMainManager(username, password);
-                if (admin != null) {
+                //Search for Main manager in systemDataBase
+                MainManager adminInDB = systemDataBase.findMainManager(username, password);
+                if(adminInDB != null){
                     loginFrame.dispose();
                     MainManagerFrame.launchMainManagerPanel();
                     return;
                 }
 
-                for (Manager m : systemDataBase.getManagers()) {
-                    if (!(m instanceof MainManager) && m.getId().equals(username)) {
-                        if (password.isEmpty() || password.equals("1234")) {
-                            loginFrame.dispose();
-                            showRegularManagerActionChoice(m);
-                            return;
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Incorrect password for regular manager.", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                            return;
+                // If Main Manager was not found - search for regular manager in systemDataBase
+                Manager regularManagerInDB = systemDataBase.findRegularManagerById(username);
+                if(regularManagerInDB != null){
+                    loginFrame.dispose();
+                    showRegularManagerActionChoice(regularManagerInDB);
+                }
+
+                //If both Main Manager and Regular Manager were not found in systemDataBase, search in SystemManagers file
+                BufferedReader br = null;
+                try{
+                    br = new BufferedReader(new FileReader("SystemManagers.txt"));
+                    String line;
+                    while((line = br.readLine()) != null){
+                        String [] parts = line.split(" ");
+                        //Check if it is Head Manager or Regular Manager
+                        if(parts[0].equals("M")){ // If Main Manager
+                            if(parts[6].equals(username) && parts[7].equals(password)){
+                                MainManager mainFromFile = new MainManager(parts[1], parts[2], parts[3], parts[5], parts[4], parts[6],parts[7]);
+                                systemDataBase.addManager(mainFromFile);
+                                loginFrame.dispose();
+                                MainManagerFrame.launchMainManagerPanel();
+                                return;
+                            }
+                        
+                        }
+                        else if(parts[0].equals("R")){ // If regular manager
+                            if(parts[1].equals(username) && password.isEmpty() || password.equals("1234")){
+                                Manager newManagerFromFile = new Manager(parts[1], parts[2], parts[3], parts[5],parts[4]);
+                                systemDataBase.addManager(newManagerFromFile);
+                                loginFrame.dispose();
+                                showRegularManagerActionChoice(newManagerFromFile);
+                                return;
+                            }
+
                         }
                     }
                 }
-                JOptionPane.showMessageDialog(null, "Invalid credentials or ID.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                catch(IOException exception){
+                    exception.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error reading system file.");
+                    return;
+                }
+                finally{
+                    if(br != null){
+                        try{
+                            br.close();
+                        }
+                        catch(IOException exception2){
+                            exception2.printStackTrace();
+                        }
+                            
+                    }
+                }
             }
         });
 
