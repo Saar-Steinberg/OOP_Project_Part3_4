@@ -13,7 +13,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel; 
 import Control.systemDataBase;
 import Model.Subscription; 
-import Model.Manager; 
+import Model.Manager;
+import Model.Order;
 import Model.MainManager; 
 import Model.Taxi; 
 import Model.ExpressTaxi; 
@@ -935,9 +936,44 @@ public class MainManagerFrame {
                 }
             }
         });
-
+        // Action Listener for Download Orders Button
         downloadOrdersBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
+
+                //Sort all orders by orderNum
+                ArrayList<Order> allOrders = systemDataBase.getOrders();
+                ArrayList<Order> sortedOrders = allOrders.stream().sorted((o1,o2) -> o1.getOrderNum().compareTo(o2.getOrderNum())).collect(Collectors.toCollection(ArrayList::new));
+
+                //Writing and Overiding in file
+                BufferedWriter bw  = null;
+                try{
+                    bw = new BufferedWriter(new FileWriter("orders.txt"));
+                    for(Order o : sortedOrders){
+                        String line = o.getSubCode() + " " + o.getOrderNum() + " " + o.getManagerCode() + " " + o.getDay() + " " + o.getHour() + " " + o.getMonth() + " " + o.getOrderPrice() + " " + o.getTaxi().getTaxiCode();
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                    JOptionPane.showMessageDialog(null, "Orders saved to file successfully!");
+
+                }
+                catch(IOException ioE){
+                    ioE.printStackTrace();;
+                    JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                finally{
+                    if(bw != null){
+                        try{
+                            bw.close();
+                        }
+                        catch(IOException closeEx){
+                            closeEx.printStackTrace();
+                        }
+                    }
+                }
+                
+
+
+
                 
             }
         });
