@@ -1,9 +1,27 @@
-Taxi Code T100, Available:  true , Min Price: 50.0
+Taxi Code T-DP01, Available:  true , Min Price: 65.0
+Responsible Manager: 
+Manager: M-RD01 , Mr.
+
+Taxi Code T-KB01, Available:  true , Min Price: 60.0
+Responsible Manager: 
+Manager: M-RD03 , Mr.
+
+Taxi Code T-OU01, Available:  true , Min Price: 80.0
+Responsible Manager: 
+Manager: M-RD01 , Mr.
+
+Taxi Code T-PF01, Available:  false , Min Price: 75.0
+Responsible Manager: 
+Manager: M-RD02 , Mr.
+
+Taxi Code T-PF02, Available:  false , Min Price: 100.0
+Responsible Manager: 
+Manager: M-RD02 , Mr.
+Manager: M-RD03 , Mr.
+
+Taxi Code T-PF03, Available:  true , Min Price: 95.0
 Responsible Manager: 
 
-Taxi Code T200, Available:  true , Min Price: 70.0
-Responsible Manager: 
-
-Taxi Code T300, Available:  true , Min Price: 90.0
+Taxi Code T1300, Available:  true , Min Price: 50.0
 Responsible Manager: 
 

@@ -326,33 +326,65 @@ public class MainManagerFrame {
 
             /**
              * Loads initial sample data into the `systemDataBase`.
-             * This includes managers, taxis, and subscriptions for demonstration or testing purposes.
+             * This includes managers, taxis, subscriptions and orders for testing purposes.
              */
             public static void loadInitialData() {
-                systemDataBase.addManager(new MainManager("1001", "Alice", "Brown", "0521111111", "Tel Aviv", "admin", "pass"));
-                systemDataBase.addManager(new MainManager("1002", "Lior", "Mizrahi", "0524444444", "Jerusalem", "admin2", "pass2"));
-                systemDataBase.addManager(new Manager("1003", "Yossi", "Green", "0522222222", "Netanya"));
-                systemDataBase.addManager(new Manager("1004", "Dana", "Levy", "0523333333", "Beer Sheva"));
+                MainManager mainManagerJules = new MainManager("M-PF01", "Jules", "Winnfield", "050-1234567", "1101 Inglewood, CA", "jules_w", "bad_m");
+                MainManager mainManagerVince = new MainManager("M-PF02", "Vincent", "Vega", "053-9876543", "456 Redondo Beach, CA", "vincent_v", "royale_with_cheese");
 
-                systemDataBase.addTaxi(new Taxi("T100", true, 50));
-                systemDataBase.addTaxi(new ExpressTaxi("T200", true, 70, true, 15));
-                systemDataBase.addTaxi(new IntercityTaxi("T300", true, 90, 20, 120));
+                Manager managerMrWhite = new Manager("M-RD01", "Mr.", "White", "052-1112223", "123 Warehouse District, LA");
+                Manager managerMrPink = new Manager("M-RD02", "Mr.", "Pink", "054-4445556", "456 Diamond District, LA");
+                Manager managerMrBlonde = new Manager("M-RD03", "Mr.", "Blonde", "050-7778889", "789 Hollywood Hills, CA");
 
-                systemDataBase.addSubscription(new Subscription("S100", "David", "Cohen", "Haifa", "0501234567"));
-                systemDataBase.addSubscription(new Subscription("S101", "Roni", "Bar", "Eilat", "0509876543"));
-                systemDataBase.addSubscription(new Subscription("S102", "Yael", "Mizrahi", "Ramat Gan", "0502223344"));
+                systemDataBase.addManager(mainManagerJules);
+                systemDataBase.addManager(mainManagerVince);
+                systemDataBase.addManager(managerMrWhite);
+                systemDataBase.addManager(managerMrPink);
+                systemDataBase.addManager(managerMrBlonde);
+
+                Taxi taxiBlueSky = new Taxi("T-KB01", true, 60.0); 
+                Taxi taxiChevyNova = new Taxi("T-DP01", true, 65.0); 
+                ExpressTaxi taxiRedApple = new ExpressTaxi("T-OU01", true, 80.0, true, 25.0);
+                ExpressTaxi taxiBigKahuna = new ExpressTaxi("T-PF01", true, 75.0, true, 22.0);
+                IntercityTaxi taxiHondaCivic = new IntercityTaxi("T-PF02", true, 100.0, 3.0, 350);
+                IntercityTaxi taxiGimpMobile = new IntercityTaxi("T-PF03", true, 95.0, 2.8, 450);
+
+                systemDataBase.addTaxi(taxiBlueSky);
+                systemDataBase.addTaxi(taxiChevyNova);
+                systemDataBase.addTaxi(taxiRedApple);
+                systemDataBase.addTaxi(taxiBigKahuna);
+                systemDataBase.addTaxi(taxiHondaCivic);
+                systemDataBase.addTaxi(taxiGimpMobile);
 
 
-                Subscription testSub = new Subscription("S777", "Dani", "Test", "Herzliya", "0500000000");
-                systemDataBase.addSubscription(testSub);
+                Subscription subBeatrix = new Subscription("S-KB01", "Beatrix", "Kiddo", "El Paso, Texas", "050-2223334");
+                Subscription subShosanna = new Subscription("S-IB01", "Shosanna", "Dreyfus", "Paris, France", "052-4445556");
+                Subscription subAldo = new Subscription("S-IB02", "Aldo", "Raine", "Tennessee, USA", "054-6667778");
+                Subscription subHans = new Subscription("S-IB03", "Hans", "Landa", "Berlin, Germany", "050-8889990");
+                Subscription subDjango = new Subscription("S-DJ01", "Django", "Freeman", "Candyland, Mississippi", "052-1212121");
 
-                Manager testManager = new Manager("M777", "Gili", "Manager", "0529999999", "Petach Tikva");
-                systemDataBase.addManager(testManager);
+                systemDataBase.addSubscription(subBeatrix);
+                systemDataBase.addSubscription(subShosanna);
+                systemDataBase.addSubscription(subAldo);
+                systemDataBase.addSubscription(subHans);
+                systemDataBase.addSubscription(subDjango);
 
-                Taxi testTaxi = new Taxi("T777", true, 100);
-                systemDataBase.addTaxi(testTaxi);
-                testManager.addTaxi(testTaxi);  
+                managerMrWhite.addTaxi(taxiChevyNova);
+                managerMrWhite.addTaxi(taxiRedApple);
 
+                managerMrPink.addTaxi(taxiBigKahuna);
+                managerMrPink.addTaxi(taxiHondaCivic);
+
+                managerMrBlonde.addTaxi(taxiBlueSky);
+                managerMrBlonde.addTaxi(taxiHondaCivic);
+
+                Order ShosannaOrd = new Order("ORD-001", managerMrPink.getId(), 10, 7, 20, subShosanna.getSubCode(), taxiBigKahuna, 25);
+                taxiBigKahuna.setAvailable(false);
+                systemDataBase.addOrder(ShosannaOrd);
+
+                Order subHansOrder = new Order("ORD-002", managerMrBlonde.getId(), 6, 1, 10, subHans.getSubCode(), taxiHondaCivic, 60);
+                taxiHondaCivic.setAvailable(false);
+                systemDataBase.addOrder(subHansOrder);
             }
 
             /**

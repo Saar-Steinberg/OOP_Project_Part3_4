@@ -1,3 +1,5 @@
-R 1003 Yossi Green Netanya 0522222222
-R 1004 Dana Levy Beer Sheva 0523333333
-R M777 Gili Manager Petach Tikva 0529999999
+M M101 Eric Eric Cartman "2001_Main_Street,_South_Park" 050-1112233 ericc RespectMyAuthoritah
+M M102 Randy Marsh "260_Avenue_de_los_Mexicanos,_South_Park" 053-5556677 randy TegridyFarms
+R R103 Stan Marsh "260_Avenue_de_los_Mexicanos,_South_Park" 052-2223344
+R R104 Kyle Broflovski "1002_Avenue_de_los_Mexicanos,_South_Park" 050-3334455
+R R105 Kenny McCormick "666_Stark_s_Pond,_South_Park" 054-4445566

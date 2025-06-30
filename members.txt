@@ -1,3 +1,10 @@
-S101 Roni Bar Eilat 0509876543
-S100 David Cohen Haifa 0501234567
-S102 Yael Mizrahi Ramat Gan 0502223344
+311111111 Eric Forman "459_Circle_Drive,_Point_Place" 050-1234567 
+212222222 Donna Pinciotti "461_Circle_Drive,_Point_Place" 052-2345678 
+323333333 Steven Hyde "459_Circle_Drive,_Point_Place" 054-3456789 
+234444444 Michael Kelso "888_Maple_Lane,_Point_Place" 050-4567890 
+345555555 Jackie Burkhart "711_Hill_Drive,_Point_Place" 052-5678901 
+256666666 Fez Foreigner "555_Unknown_Street,_Point_Place" 054-6789012 
+367777777 Red Forman "459_Circle_Drive,_Point_Place" 050-7890123 
+278888888 Kitty Forman "459_Circle_Drive,_Point_Place" 052-8901234 
+389999999 Bob Pinciotti "461_Circle_Drive,_Point_Place" 054-9012345 
+290123456 Leo Chingkwake "1_Photo_Hut,_Point_Place" 050-1122334 
