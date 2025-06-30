@@ -72,6 +72,16 @@ import Model.Taxi;
             public static ArrayList<Subscription> getSubscriptions() {
                 return subscriptions;
             }
+            /*
+             * Input: A subscription ID
+             * Output: The subscription with the matching id
+             */
+            public static Subscription getSubsciptionByID(String id){
+                for(Subscription s : subscriptions)
+                    if(s.getSubCode().equals(id))
+                        return s;
+                return null;
+            }
 
             // ================
             // Manager Methods
@@ -207,4 +217,6 @@ import Model.Taxi;
                         + ", taxisPerSub=" + taxisPerSub + ", stations=" + stations + ", orders=" + orders
                         + ", subscriptions=" + subscriptions + ", ordersPerSub=" + ordersPerSub + "]";
             }
+
+        
         }

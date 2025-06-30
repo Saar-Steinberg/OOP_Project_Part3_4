@@ -9,7 +9,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel; 
+import javax.swing.table.DefaultTableModel;
+
+import Control.InvalidDataException;
 import Control.systemDataBase;
 import Model.Subscription; 
 import Model.Manager;
@@ -453,8 +455,8 @@ public class MainManagerFrame {
         managerFrame.add(exitBtn);
 
                 JButton backToLoginBtn = new JButton("Back to Login");
-                backToLoginBtn.setBounds(150, 440, 200, 30);
-                backToLoginBtn.setBackground(Color.GRAY);
+                backToLoginBtn.setBounds(150, 660, 200, 30);
+                backToLoginBtn.setBackground(Color.LIGHT_GRAY);
                 managerFrame.add(backToLoginBtn);
 
                 // --- Action Listeners for buttons ---
@@ -812,41 +814,62 @@ public class MainManagerFrame {
         managerFrame.setVisible(true); // Make the main manager panel visible
 
 
-        //Action Listener for Load Manager's Button
+        //Action Listener for Load Managers Button
         loadManagersBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 BufferedReader br = null;
                 try{
                     br = new BufferedReader(new FileReader("SystemManagers.txt"));
                     String line;
+                    int lineNum = 1;
+
                     while((line = br.readLine()) != null){
-                        String [] parts = line.split(" ");
-                        if(parts[0].equals("R") && parts.length >= 6){ // Means regular Manager
-                            Manager newManager = new Manager(parts[1], parts[2], parts[3], parts[5], parts[4]);
-                            boolean added = systemDataBase.addManager(newManager);
-                            if(added){
-                                System.out.println("Manager " + parts[2] + "Added Succesfully");
-                            }
-                            else{
-                                System.out.println("Manager " + parts[2] + "Already exists");
-                            }
-                        }
-                        else if(parts[0].equals("M") && parts.length >= 8){ // Means main manager
-                            MainManager newMainManager = new MainManager(parts[1],parts[2],parts[3],parts[5], parts[4], parts[6], parts[7]);
-                            boolean added = systemDataBase.addManager(newMainManager);
-                            if(added){
-                                System.out.println("Main manager " + parts[2] + "Added succesfully");
-                            }
-                            else{
-                                System.out.println("Main manager " + parts[2] + "Already exists");
-                            }
-                        }
+                    //Checking for exeptions
+                    if(line.trim().isEmpty()){//If line is empty - count it and move forward
+                        lineNum++;
+                        continue;
                     }
-                    JOptionPane.showMessageDialog(null, "Finished loading managers from file.");
+                    String [] parts = line.split(" ");
+
+                    //Checking if row is legal
+                    if(parts[0].equals("R") && parts.length < 6){ // If this is a Regular Manager
+                        throw new InvalidDataException("Line " + lineNum + "has not enough data");
+                    }
+                    if(parts[0].equals("M") && parts.length < 8){ // If this is a Main Manager
+                        throw new InvalidDataException("Line " + lineNum + "has not enough data");
+                    }
+                    //Checking if code already exists
+                    String ID = parts[1];
+                    if(systemDataBase.findManagerById(ID) != null){
+                        throw new InvalidDataException("Line + " + lineNum + "has an existing Manager");
+                    }
+                    //If everything is legal - read managers from file
+                    if(parts[0].equals("R")){
+                        Manager newManager = new Manager(parts[1], parts[2], parts[3], parts[5], parts[4]);
+                        boolean added = systemDataBase.addManager(newManager);
+                        if(added)
+                            System.out.println("Manager " + parts[1] + "Added succesfully");
+                        else
+                            System.out.println("Failed to add manager " + parts[1]);
+                    }
+                    else if(parts[0].equals("M")){
+                        MainManager newMainManager = new MainManager(parts[1], parts[2], parts[3], parts[5], parts[4], parts[6], parts[7]);
+                        boolean added = systemDataBase.addManager(newMainManager);
+                        if(added)
+                            System.out.println("Main Manager " + parts[1] + "Added succesfully");
+                        else
+                            System.out.println("Failed to add Main Manager " + parts[1]);
+                    }
+                    lineNum++;
+                    }
+                    JOptionPane.showMessageDialog(null, "Finished loading managers from file successfully!");
                 }
                 catch(IOException exe){
                     exe.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error reading file: " + exe.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(InvalidDataException ide){
+                    JOptionPane.showMessageDialog(null, "Error in file data:\n" + ide.getMessage(), "Invalid Data", JOptionPane.ERROR_MESSAGE);
                 }
                 finally{
                     if(br != null){
@@ -866,22 +889,33 @@ public class MainManagerFrame {
         loadSubscribersBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 BufferedReader br = null;
+                int lineNum = 1;
                 try{
                     br = new BufferedReader(new FileReader("members.txt"));
                     String line;
                     while((line = br.readLine()) != null){
-                        String [] parts = line.split(" ");
-                        if(parts.length != 5)
-                            JOptionPane.showMessageDialog(null, "The member's info is not valid", "Member Adding Failed", JOptionPane.ERROR_MESSAGE);
-                        else{
-                            Subscription newSubscription = new Subscription(parts[0], parts[1], parts[2], parts[3], parts[4]);
-                            boolean added = systemDataBase.addSubscription(newSubscription);
-                            if(added)
-                                System.out.println("Subscriber " + parts[1] + "Added Succesfully");
-                            else
-                                System.out.println("Failed to add " + parts[1] );
-                            
+                        //Checking for exceptions
+                        if(line.trim().isEmpty()){ //If there is an empty line - count it and move forward
+                            lineNum++;
+                            continue;
                         }
+                        String [] parts = line.split(" ");
+                        if(parts.length < 5) // If row is not legal
+                            throw new InvalidDataException("Line + " + lineNum + "has not enough data");
+
+                        String subID = parts[0];
+                        if(systemDataBase.getSubsciptionByID(subID) != null){ // If sub already exists
+                            throw new InvalidDataException("Line + " + lineNum + "has an existing member");
+                        }
+                        // If everything is legal - read member from file
+                        Subscription newSubscription = new Subscription(parts[0], parts[1], parts[2], parts[3], parts[4]);
+                        boolean added = systemDataBase.addSubscription(newSubscription);
+                        if(added)
+                            System.out.println("Subscriber " + parts[1] + "Added Succesfully");
+                        else
+                            System.out.println("Failed to add " + parts[1] );
+                            
+                        lineNum++;
                     }
                     JOptionPane.showMessageDialog(null, "Finished loading members from file.");
 
@@ -889,6 +923,9 @@ public class MainManagerFrame {
                 catch(IOException ioE){
                     ioE.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error reading file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch(InvalidDataException ide){
+                    JOptionPane.showMessageDialog(null, "Error in file data:\n" + ide.getMessage(), "Invalid Data", JOptionPane.ERROR_MESSAGE);
                 }
                 finally{
                     if(br != null){

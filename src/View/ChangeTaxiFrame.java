@@ -6,9 +6,7 @@ import java.awt.event.*;
 import Model.*;
 import Control.systemDataBase;
 
-// Effect: Provides a graphical user interface for a regular manager to change the assigned taxi for an existing order.
-//         It facilitates finding an order by ID and selecting a new, upgraded taxi type (Express or Intercity).
-// Output: A JFrame that allows managers to modify orders, displaying confirmation or error messages.
+
 
 public class ChangeTaxiFrame extends JFrame {
     // Effect: Initializes the frame for the taxi change operation.
