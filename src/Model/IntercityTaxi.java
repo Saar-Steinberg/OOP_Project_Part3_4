@@ -90,6 +90,8 @@ public class IntercityTaxi extends Taxi {
 				+ extraPrice + ", maxHours=" + maxHours + ", taxiCode=" + taxiCode + ", available=" + available
 				+ ", minPrice=" + minPrice + "]";
 	}
+
+	
 	
 	
 	

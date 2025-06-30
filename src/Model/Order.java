@@ -76,6 +76,30 @@ public class Order {
 		return "Order [orderNum=" + orderNum + ", managerCode=" + managerCode + ", day=" + day + ", month=" + month
 				+ ", hour=" + hour + ", subCode=" + subCode + ", taxi=" + taxi + ", orderPrice=" + orderPrice + "]";
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((orderNum == null) ? 0 : orderNum.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (orderNum == null) {
+			if (other.orderNum != null)
+				return false;
+		} else if (!orderNum.equals(other.orderNum))
+			return false;
+		return true;
+	}
+	
 	
 	
 

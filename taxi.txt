@@ -1,3 +1,6 @@
+Taxi Code 666464, Available:  false , Min Price: 54.0
+Responsible Manager: 
+
 Taxi Code T-DP01, Available:  true , Min Price: 65.0
 Responsible Manager: 
 Manager: M-RD01 , Mr.
@@ -20,8 +23,5 @@ Manager: M-RD02 , Mr.
 Manager: M-RD03 , Mr.
 
 Taxi Code T-PF03, Available:  true , Min Price: 95.0
-Responsible Manager: 
-
-Taxi Code T1300, Available:  true , Min Price: 50.0
 Responsible Manager: 
 

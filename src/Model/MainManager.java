@@ -41,5 +41,7 @@ public class MainManager extends Manager{
 				+ firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", taxis="
 				+ taxis + ", orders=" + orders + "]";
 	}
+
+	
 	
 }

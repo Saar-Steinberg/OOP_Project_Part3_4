@@ -34,6 +34,31 @@ public class Taxi {
 	public String toString() {
 		return "Taxi [taxiCode=" + taxiCode + ", available=" + available + ", minPrice=" + minPrice + "]";
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((taxiCode == null) ? 0 : taxiCode.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Taxi other = (Taxi) obj;
+		if (taxiCode == null) {
+			if (other.taxiCode != null)
+				return false;
+		} else if (!taxiCode.equals(other.taxiCode))
+			return false;
+		return true;
+	}
+
+	
 	
 	
 	
