@@ -6,12 +6,10 @@ import java.awt.event.*;
 import Model.*;
 import Control.systemDataBase;
 
-
-
 public class ChangeTaxiFrame extends JFrame {
     // Effect: Initializes the frame for the taxi change operation.
     // Output: A visible JFrame window for manager interaction.
-    //         @param manager The Manager object initiating the taxi change.
+    // manager The Manager object initiating the taxi change.
     public ChangeTaxiFrame(Manager manager) {
         super("Change Taxi in Order");
         setLayout(new GridLayout(6, 2, 10, 10));
@@ -25,7 +23,7 @@ public class ChangeTaxiFrame extends JFrame {
         add(findOrderBtn);
 
         // Effect: Handles the logic when the "Find Order" button is clicked.
-        //         Performs comprehensive validation and the core order modification.
+        // Performs comprehensive validation and the core order modification.
         // Output: Updates order data in systemDataBase; displays info/error dialogs; disposes frame on success.
         findOrderBtn.addActionListener(e -> {
             String orderId = orderIdField.getText().trim();
@@ -59,7 +57,7 @@ public class ChangeTaxiFrame extends JFrame {
             if (!(targetOrder.getTaxi() instanceof Taxi) ||
                 targetOrder.getTaxi() instanceof ExpressTaxi ||
                 targetOrder.getTaxi() instanceof IntercityTaxi) {
-                JOptionPane.showMessageDialog(null, "Only regular taxis can be changed to Express or Intercity.");
+                JOptionPane.showMessageDialog(null, "Only regular taxies can be changed to Express or Intercity.");
                 return;
             }
 
@@ -116,7 +114,7 @@ public class ChangeTaxiFrame extends JFrame {
             // Effect: Prevents changing a regular taxi to another regular taxi (only upgrades are allowed).
             // Output: Error message if attempting to change to a regular taxi.
             if (newTaxi instanceof Taxi && !(newTaxi instanceof ExpressTaxi) && !(newTaxi instanceof IntercityTaxi)) {
-                JOptionPane.showMessageDialog(null, "You can only change to Express or Intercity taxis, not a regular taxi.");
+                JOptionPane.showMessageDialog(null, "You can only change to Express or Intercity taxies, not a regular taxi.");
                 return;
             }
 
@@ -151,8 +149,6 @@ public class ChangeTaxiFrame extends JFrame {
         add(new JLabel(""));
         add(backBtn);
 
-        // Effect: Makes the frame visible.
-        // Output: The GUI window appears on screen.
         setVisible(true);
     }
 }

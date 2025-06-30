@@ -7,13 +7,11 @@ import Model.*;
 import Control.systemDataBase;
 
 public class SubscriptionPanel extends JFrame {
-    private Subscription sub; // The current subscriber
-
     public SubscriptionPanel(Subscription sub) {
         super("Subscription Panel");
-        this.sub = sub;
+        
 
-        setLayout(new GridLayout(4, 1, 10, 10)); // Grid layout for main buttons
+        setLayout(new GridLayout(4, 1, 10, 10)); 
         setSize(400, 300);
 
         // Main action buttons for the subscriber
@@ -60,12 +58,12 @@ public class SubscriptionPanel extends JFrame {
                 JButton backBtn = new JButton("Back to Main Menu");
                 backBtn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ev) {
-                        ordersFrame.dispose(); // Close the orders frame
+                        ordersFrame.dispose(); 
                     }
                 });
 
                 ordersFrame.add(backBtn, BorderLayout.SOUTH);
-                ordersFrame.setLocationRelativeTo(null); // Center the frame
+                ordersFrame.setLocationRelativeTo(null); 
                 ordersFrame.setVisible(true);
             }
         });
@@ -100,14 +98,14 @@ public class SubscriptionPanel extends JFrame {
                         sub.setPhone(phoneField.getText().trim());
                         sub.setAddress(addressField.getText().trim());
                         JOptionPane.showMessageDialog(null, "Details updated successfully.");
-                        updateFrame.dispose(); // Close the update frame
+                        updateFrame.dispose(); 
                     }
                 });
 
                 // Listener to go back without saving
                 backBtn.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ev) {
-                        updateFrame.dispose(); // Close the update frame
+                        updateFrame.dispose(); 
                     }
                 });
 
@@ -115,7 +113,7 @@ public class SubscriptionPanel extends JFrame {
                 buttonPanel.add(backBtn);
                 updateFrame.add(buttonPanel, BorderLayout.SOUTH);
 
-                updateFrame.setLocationRelativeTo(null); // Center the frame
+                updateFrame.setLocationRelativeTo(null); 
                 updateFrame.setVisible(true);
             }
         });
@@ -152,7 +150,7 @@ public class SubscriptionPanel extends JFrame {
                     JButton backBtn = new JButton("Back to Main Menu");
                     backBtn.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent ev) {
-                            taxiFrame.dispose(); // Close the taxi details frame
+                            taxiFrame.dispose(); 
                         }
                     });
 
@@ -160,7 +158,7 @@ public class SubscriptionPanel extends JFrame {
                     btnPanel.add(backBtn);
                     taxiFrame.add(btnPanel, BorderLayout.SOUTH);
 
-                    taxiFrame.setLocationRelativeTo(null); // Center the frame
+                    taxiFrame.setLocationRelativeTo(null); 
                     taxiFrame.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(SubscriptionPanel.this, "Taxi not found.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -171,13 +169,13 @@ public class SubscriptionPanel extends JFrame {
         // Listener for "Back to Login" button
         backBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the current subscription panel
-                LoginFrame.main(null); // Reopen the main login frame
+                dispose(); 
+                LoginFrame.main(null); 
             }
         });
 
-        setLocationRelativeTo(null); // Center the main subscription panel
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit application when this frame is closed
+        setLocationRelativeTo(null); 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setVisible(true);
     }
     

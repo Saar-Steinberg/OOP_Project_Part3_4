@@ -28,25 +28,23 @@ import java.util.stream.Collectors;
 
 public class MainManagerFrame {
 
-    /**
-     * Helper method to check if a string contains only digits.
-     *
-     * @param input The string to check.
-     * @return true if the string contains only digits, false otherwise.
-     */
-    private static boolean isOnlyDigits(String input) {
-        return input.matches("\\d+");
-    }
-
-            // This helper method verifies if the provided string contains only alphabetic characters (a-z, A-Z) using a regular expression.
+            /**
+             * Helper method to check if a string contains only digits.
+             *
+             * Input: The string to check.
+             * Output: True if the string contains only digits, false otherwise.
+             */
+            private static boolean isOnlyDigits(String input) {
+                return input.matches("\\d+");
+             }
+             /*
+              * This helper method verifies if the provided string contains only alphabetic characters (a-z, A-Z) using a regular expression.
+              * Input: A string to check
+              * Output: True if the string contains only letters, false otherwise.
+              */
             private static boolean isOnlyLetters(String input) {
                 return input.matches("[a-zA-Z]+");
             }
-
-             // This method creates and displays a graphical form for adding a new manager.
-            // The form dynamically adjusts its fields based on the 'isMain' parameter:
-            // If 'isMain' is true, it includes fields for username and password, designating the manager as a Main Manager.
-            // Otherwise, it creates a form for a Regular Manager with standard identification details.
 
             private static void showManagerForm(boolean isMain) {
                 JFrame addManagerFrame = new JFrame("Add " + (isMain ? "Main " : "") + "Manager");
@@ -99,9 +97,6 @@ public class MainManagerFrame {
                 saveBtn.setBounds(150, isMain ? 340 : 260, 100, 30);
 
                 // Action listener for the Save button
-                // This listener defines the actions performed when the "Save" button is clicked.
-                // It retrieves input, performs validation, creates a manager object (Main or Regular),
-                // attempts to add it to the system database, and provides user feedback.
                 saveBtn.addActionListener(new ActionListener() {
                     
                     public void actionPerformed(ActionEvent evt) {
@@ -166,7 +161,6 @@ public class MainManagerFrame {
                 });
 
                 // Add components to the frame
-                // These lines add all the created UI components (labels, text fields, and buttons) to the manager addition form.
                 // The username and password fields are only added if the form is for a Main Manager.
                 addManagerFrame.add(idLabel);
                 addManagerFrame.add(idField);
@@ -203,11 +197,9 @@ public class MainManagerFrame {
                 addManagerFrame.setVisible(true);
             }
 
-            // This method creates and displays a UI form for adding a new taxi.
-            // The form dynamically adjusts its fields based on the 'type' parameter:
+            // This method creates and displays for adding a new taxi.
             // Type 1 is for Regular Taxis, Type 2 for Express Taxis (adding 'City Taxi' and 'Extra Price' fields),
             // and Type 3 for Intercity Taxis (adding 'Extra Price' and 'Max Hours' fields).
-
             private static void showTaxiForm(int type) {
 
                 JFrame taxiFrame = new JFrame("Add Taxi");
@@ -262,10 +254,7 @@ public class MainManagerFrame {
                             boolean available = Boolean.parseBoolean(availableField.getText().trim());
                             double minPrice = Double.parseDouble(priceField.getText().trim());
 
-
-                             // This section checks if the common fields (code, availability, min price) are not empty.
-                            // It relies on `parseDouble` and `parseBoolean` to implicitly handle format validation,
-                            // which will throw a `NumberFormatException` or `IllegalArgumentException` if input is invalid.
+                            // This section checks if the common fields (code, availability, min price) are not empty.
                             if (code.isEmpty() || availableField.getText().trim().isEmpty() || priceField.getText().trim().isEmpty()) {
                                 JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
@@ -286,11 +275,11 @@ public class MainManagerFrame {
                                 newTaxi = new IntercityTaxi(code, available, minPrice, extra, maxHrs);
                             }
 
-                             // Attempt to add the newly created taxi object to the system database.
+                            // Attempt to add the newly created taxi object to the system database.
                             // Displays success or failure messages to the user.
                             if (systemDataBase.addTaxi(newTaxi)) {
                                 JOptionPane.showMessageDialog(null, "Taxi added successfully.");
-                                taxiFrame.dispose(); // Close the form after saving
+                                taxiFrame.dispose(); 
                             } else {
                                 JOptionPane.showMessageDialog(null, "Failed to add taxi. Taxi code might already exist.", "Error", JOptionPane.ERROR_MESSAGE);
                             }
@@ -304,7 +293,6 @@ public class MainManagerFrame {
 
                 // Add common components to the frame
                 // These lines add the basic taxi fields (code, availability, min price) to the form.
-
                 taxiFrame.add(codeLabel);
                 taxiFrame.add(codeField);
                 taxiFrame.add(availableLabel);
@@ -322,7 +310,7 @@ public class MainManagerFrame {
 
                 taxiFrame.add(saveBtn);
 
-                 // This section creates a "Back to Main Menu" button.
+                // This section creates a "Back to Main Menu" button.
                 // When clicked, this button closes the current taxi form and navigates back to the main manager panel.
                 Button backBtn = new Button("Back to Main Menu");
                 backBtn.setBounds(150, 350, 100, 30);
@@ -363,119 +351,116 @@ public class MainManagerFrame {
 
                 Taxi testTaxi = new Taxi("T777", true, 100);
                 systemDataBase.addTaxi(testTaxi);
-                testManager.addTaxi(testTaxi);  //
+                testManager.addTaxi(testTaxi);  
 
-                // The commented-out 'TESTS' section suggests further initial data setup or testing logic
-                // that could be re-enabled for specific testing scenarios.
             }
 
             /**
              * Launches the main panel for the Main Manager, providing buttons for various administrative functions.
              */
- public static void launchMainManagerPanel() {
-    JFrame managerFrame = new JFrame("Main Manager Panel");
-    managerFrame.setSize(500, 750);
-    managerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            public static void launchMainManagerPanel() {
+                JFrame managerFrame = new JFrame("Main Manager Panel");
+                managerFrame.setSize(500, 750);
+                managerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    JPanel contentPanel = new JPanel();
-    contentPanel.setLayout(null);
-    contentPanel.setPreferredSize(new Dimension(500, 900)); // מספיק מקום לכל הכפתורים
+                JPanel contentPanel = new JPanel();
+                contentPanel.setLayout(null);
+                contentPanel.setPreferredSize(new Dimension(500, 900));
 
-    JLabel title = new JLabel("Welcome, Main Manager");
-    title.setBounds(150, 30, 250, 30);
-    contentPanel.add(title);
+                JLabel title = new JLabel("Welcome, Main Manager");
+                title.setBounds(150, 30, 250, 30);
+                contentPanel.add(title);
 
-    int y = 100;
-    int spacing = 40;
+                int y = 100;
+                int spacing = 40;
 
-    JButton showSubscriptionsBtn = new JButton("Show Subscriptions");
-    showSubscriptionsBtn.setBounds(150, y, 200, 30);
-    contentPanel.add(showSubscriptionsBtn);
+                JButton showSubscriptionsBtn = new JButton("Show Subscriptions");
+                showSubscriptionsBtn.setBounds(150, y, 200, 30);
+                contentPanel.add(showSubscriptionsBtn);
 
-    JButton showManagersBtn = new JButton("Show Managers");
-    showManagersBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(showManagersBtn);
+                JButton showManagersBtn = new JButton("Show Managers");
+                showManagersBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(showManagersBtn);
 
-    JButton showTaxisBtn = new JButton("Show Taxis");
-    showTaxisBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(showTaxisBtn);
+                JButton showTaxisBtn = new JButton("Show Taxis");
+                showTaxisBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(showTaxisBtn);
 
-    JButton addSubscriptionBtn = new JButton("Add Subscription");
-    addSubscriptionBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(addSubscriptionBtn);
+                JButton addSubscriptionBtn = new JButton("Add Subscription");
+                addSubscriptionBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(addSubscriptionBtn);
 
-    JButton addManagerBtn = new JButton("Add Manager");
-    addManagerBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(addManagerBtn);
+                JButton addManagerBtn = new JButton("Add Manager");
+                addManagerBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(addManagerBtn);
 
-    JButton addTaxiBtn = new JButton("Add Taxi");
-    addTaxiBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(addTaxiBtn);
+                JButton addTaxiBtn = new JButton("Add Taxi");
+                addTaxiBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(addTaxiBtn);
 
-    JButton assignTaxiBtn = new JButton("Assign Taxi to Manager");
-    assignTaxiBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(assignTaxiBtn);
+                JButton assignTaxiBtn = new JButton("Assign Taxi to Manager");
+                assignTaxiBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(assignTaxiBtn);
 
-    JButton loadManagersBtn = new JButton("Load All Managers");
-    loadManagersBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(loadManagersBtn);
+                JButton loadManagersBtn = new JButton("Load All Managers");
+                loadManagersBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(loadManagersBtn);
 
-    JButton loadSubscribersBtn = new JButton("Load All Subscribers");
-    loadSubscribersBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(loadSubscribersBtn);
+                JButton loadSubscribersBtn = new JButton("Load All Subscribers");
+                loadSubscribersBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(loadSubscribersBtn);
 
-    JButton downloadManagersBtn = new JButton("Download All Regular Managers");
-    downloadManagersBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(downloadManagersBtn);
+                JButton downloadManagersBtn = new JButton("Download All Regular Managers");
+                downloadManagersBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(downloadManagersBtn);
 
-    JButton downloadSubscribersBtn = new JButton("Download All Subscribers");
-    downloadSubscribersBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(downloadSubscribersBtn);
+                JButton downloadSubscribersBtn = new JButton("Download All Subscribers");
+                downloadSubscribersBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(downloadSubscribersBtn);
 
-    JButton downloadOrdersBtn = new JButton("Download All Orders");
-    downloadOrdersBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(downloadOrdersBtn);
+                JButton downloadOrdersBtn = new JButton("Download All Orders");
+                downloadOrdersBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(downloadOrdersBtn);
 
-    JButton downloadTaxiesBtn = new JButton("Download All Taxies");
-    downloadTaxiesBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(downloadTaxiesBtn);
+                JButton downloadTaxiesBtn = new JButton("Download All Taxies");
+                downloadTaxiesBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(downloadTaxiesBtn);
 
-    JButton backToLoginBtn = new JButton("Back to Login");
-    backToLoginBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(backToLoginBtn);
+                JButton backToLoginBtn = new JButton("Back to Login");
+                backToLoginBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(backToLoginBtn);
 
-    JButton exitBtn = new JButton("Exit");
-    exitBtn.setBounds(150, y += spacing, 200, 30);
-    contentPanel.add(exitBtn);
+                JButton exitBtn = new JButton("Exit");
+                exitBtn.setBounds(150, y += spacing, 200, 30);
+                contentPanel.add(exitBtn);
 
-    JScrollPane scrollPane = new JScrollPane(contentPanel);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane scrollPane = new JScrollPane(contentPanel);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-    managerFrame.add(scrollPane);
-    managerFrame.setVisible(true);
+                managerFrame.add(scrollPane);
+                managerFrame.setVisible(true);
 
 
-    showSubscriptionsBtn.setBackground(Color.LIGHT_GRAY);
-showManagersBtn.setBackground(Color.LIGHT_GRAY);
-showTaxisBtn.setBackground(Color.LIGHT_GRAY);
-loadManagersBtn.setBackground(Color.LIGHT_GRAY);
-loadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
+                showSubscriptionsBtn.setBackground(Color.LIGHT_GRAY);
+                showManagersBtn.setBackground(Color.LIGHT_GRAY);
+                showTaxisBtn.setBackground(Color.LIGHT_GRAY);
+                loadManagersBtn.setBackground(Color.LIGHT_GRAY);
+                loadSubscribersBtn.setBackground(Color.LIGHT_GRAY);
 
-addSubscriptionBtn.setBackground(new Color(204, 255, 204)); 
-addManagerBtn.setBackground(new Color(204, 255, 204));
-addTaxiBtn.setBackground(new Color(204, 255, 204));
-assignTaxiBtn.setBackground(new Color(204, 255, 204));
+                addSubscriptionBtn.setBackground(new Color(204, 255, 204)); 
+                addManagerBtn.setBackground(new Color(204, 255, 204));
+                addTaxiBtn.setBackground(new Color(204, 255, 204));
+                assignTaxiBtn.setBackground(new Color(204, 255, 204));
 
-downloadManagersBtn.setBackground(new Color(204, 229, 255)); 
-downloadSubscribersBtn.setBackground(new Color(204, 229, 255));
-downloadOrdersBtn.setBackground(new Color(204, 229, 255));
-downloadTaxiesBtn.setBackground(new Color(204, 229, 255));
+                downloadManagersBtn.setBackground(new Color(204, 229, 255)); 
+                downloadSubscribersBtn.setBackground(new Color(204, 229, 255));
+                downloadOrdersBtn.setBackground(new Color(204, 229, 255));
+                downloadTaxiesBtn.setBackground(new Color(204, 229, 255));
 
-backToLoginBtn.setBackground(new Color(255, 204, 204)); 
-exitBtn.setBackground(new Color(255, 204, 204));
+                backToLoginBtn.setBackground(new Color(255, 204, 204)); 
+                exitBtn.setBackground(new Color(255, 204, 204));
      
-                
                 // --- Action Listeners for buttons ---
 
                 // Exit button listener
@@ -535,7 +520,6 @@ exitBtn.setBackground(new Color(255, 204, 204));
 
                         // Action listener for saving the new subscription
                         // This listener handles the logic for saving a new subscription after the "Save" button is clicked.
-
                         saveBtn.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent evt) {
                                 String id = idField.getText().trim();
@@ -579,7 +563,6 @@ exitBtn.setBackground(new Color(255, 204, 204));
                         addSubscriptionFrame.add(saveBtn);
 
                         // This section creates a "Back to Main Menu" button within the subscription addition form.
-
                         Button backBtn = new Button("Back to Main Menu");
                         backBtn.setBounds(150, 300, 120, 30);
                         backBtn.addActionListener(new ActionListener() {
@@ -601,7 +584,7 @@ exitBtn.setBackground(new Color(255, 204, 204));
                 // whether to add a Regular Manager or a Main Manager, based on numeric input (1 or 2).
                 addManagerBtn.addActionListener(new ActionListener() {
                     
-                    public void actionPerformed(ActionEvent e) {
+                        public void actionPerformed(ActionEvent e) {
                         JFrame chooseTypeFrame = new JFrame("Choose Manager Type");
                         chooseTypeFrame.setSize(300, 200);
                         chooseTypeFrame.setLayout(null);
@@ -649,7 +632,7 @@ exitBtn.setBackground(new Color(255, 204, 204));
 
                         Label typeLabel = new Label("Taxi Type:");
                         typeLabel.setBounds(50, 50, 100, 25);
-                        Choice typeChoice = new Choice(); // Dropdown for taxi types
+                        Choice typeChoice = new Choice(); 
                         typeChoice.add("1: Regular");
                         typeChoice.add("2: Express");
                         typeChoice.add("3: Intercity");
@@ -663,7 +646,7 @@ exitBtn.setBackground(new Color(255, 204, 204));
                             public void actionPerformed(ActionEvent evt) {
                                 int selected = typeChoice.getSelectedIndex() + 1; // Get 1, 2, or 3
                                 chooseTaxiTypeFrame.dispose();
-                                showTaxiForm(selected); // Call method to show the appropriate taxi form
+                                showTaxiForm(selected); 
                             }
                         });
 
@@ -674,7 +657,7 @@ exitBtn.setBackground(new Color(255, 204, 204));
                     }
                 });
 
-                // Show Subscriptions button listener
+                //Action Listener for Show Subscriptions button
                 showSubscriptionsBtn.addActionListener(new ActionListener() {
                  
                     public void actionPerformed(ActionEvent e) {
@@ -699,10 +682,7 @@ exitBtn.setBackground(new Color(255, 204, 204));
                     }
                 });
 
-                // Show Managers button listener
-                // This listener is activated when the "Show Managers" button is clicked.
-                // It retrieves all manager data from the `systemDataBase`, sorts them by first name,
-                // and then presents this information in a table using the `showTable` helper method.
+                //Axtion Listener for Show Managers button
                 showManagersBtn.addActionListener(new ActionListener() {
                    
                     public void actionPerformed(ActionEvent e) {
@@ -727,11 +707,7 @@ exitBtn.setBackground(new Color(255, 204, 204));
                     }
                 });
 
-                // Show Taxis button listener
-                // This listener handles the action when the "Show Taxis" button is clicked.
-                // It fetches all taxi data from the `systemDataBase`, sorts the taxis by their code,
-                // and then displays them in a table. It also identifies and labels the specific type
-                // of each taxi (Regular, Express, or Intercity).
+                //Action Listener for Show Taxies button
                 showTaxisBtn.addActionListener(new ActionListener() {
                   
                     public void actionPerformed(ActionEvent e) {
@@ -761,10 +737,7 @@ exitBtn.setBackground(new Color(255, 204, 204));
                     }
                 });
 
-                // Assign Taxi to Manager button listener
-                // It opens a new JFrame that provides input fields for a taxi code and a manager ID.
-                // It then attempts to find both the taxi and the manager in the database and, if found,
-                // assigns the taxi to that manager.
+                //Action Listener for assignTaxi button
                 assignTaxiBtn.addActionListener(new ActionListener() {
                    
                     public void actionPerformed(ActionEvent e) {
@@ -828,7 +801,7 @@ exitBtn.setBackground(new Color(255, 204, 204));
                     }
                 });
 
-        managerFrame.setVisible(true); // Make the main manager panel visible
+        managerFrame.setVisible(true); 
 
 
         //Action Listener for Load Managers Button
@@ -1114,38 +1087,29 @@ exitBtn.setBackground(new Color(255, 204, 204));
 
 
     
-    /**
-     * Helper method to display data in a new JFrame containing a JTable.
-     * This is used to show lists of subscriptions, managers, or taxis.
-     *
-     * @param title The title for the table window.
-     * @param columns An array of strings representing the column headers.
-     * @param data A 2D array of strings containing the table data.
-     */
- private static void showTable(String title, String[] columns, String[][] data) {
-    JFrame frame = new JFrame(title);
-    frame.setSize(600, 450);
-    frame.setLayout(new BorderLayout());
+    
+            private static void showTable(String title, String[] columns, String[][] data) {
+                JFrame frame = new JFrame(title);
+                frame.setSize(600, 450);
+                frame.setLayout(new BorderLayout());
 
-            JTable table = new JTable(new DefaultTableModel(data, columns));
-            JScrollPane scrollPane = new JScrollPane(table);
-            frame.add(scrollPane, BorderLayout.CENTER);
+                JTable table = new JTable(new DefaultTableModel(data, columns));
+                JScrollPane scrollPane = new JScrollPane(table);
+                frame.add(scrollPane, BorderLayout.CENTER);
 
-             // Add a "Back to Main Menu" button to the table display frame.
-            // This allows users to easily return to the main manager panel from any table view.
-            JPanel bottomPanel = new JPanel();
-            JButton backBtn = new JButton("Back to Main Menu");
-            backBtn.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    frame.dispose(); 
-                    launchMainManagerPanel(); 
-                }
-            });
-            bottomPanel.add(backBtn);
-            frame.add(bottomPanel, BorderLayout.SOUTH);
+                // Add a "Back to Main Menu" button to the table display frame.
+                JPanel bottomPanel = new JPanel();
+                JButton backBtn = new JButton("Back to Main Menu");
+                backBtn.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        frame.dispose(); 
+                        launchMainManagerPanel(); 
+                    }
+                });
+                bottomPanel.add(backBtn);
+                frame.add(bottomPanel, BorderLayout.SOUTH);
+                frame.setLocationRelativeTo(null); 
+                frame.setVisible(true);
+            }
 
-            frame.setLocationRelativeTo(null); 
-            frame.setVisible(true);
-        }
-
-        }
+            }

@@ -11,21 +11,19 @@ public class RegularManagerFrame extends JFrame {
     public RegularManagerFrame(Manager manager) {
         super("Regular Manager Panel");
         this.currentManager = manager;
-
         setLayout(new BorderLayout());
 
-        // Welcome label displaying the manager's first name
         JLabel welcomeLabel = new JLabel("Welcome, Manager " + manager.getFirstName(), SwingConstants.CENTER);
         add(welcomeLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10)); // Changed to 3 rows for the back button
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10)); 
         JButton createOrderBtn = new JButton("Create Order");
         JButton changeTaxiBtn = new JButton("Change Taxi in Existing Order");
         JButton backBtn = new JButton("Back to Login");
         
         buttonPanel.add(createOrderBtn);
         buttonPanel.add(changeTaxiBtn);
-        buttonPanel.add(backBtn); // Added back button to the panel
+        buttonPanel.add(backBtn); 
         add(buttonPanel, BorderLayout.CENTER);
 
         // Action Listener for creating a new order button
@@ -45,14 +43,14 @@ public class RegularManagerFrame extends JFrame {
         // Listener for the back to login button
         backBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the current frame
-                LoginFrame.main(null); // Open the login frame
+                dispose(); 
+                LoginFrame.main(null); 
             }
         });
 
         setSize(400, 200);
-        setLocationRelativeTo(null); // Center the frame on the screen
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit application on close
+        setLocationRelativeTo(null); 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setVisible(true);
     }
 }

@@ -6,17 +6,14 @@ import java.awt.event.*;
 import Model.*;
 import Control.systemDataBase;
 
-// Effect: Provides a graphical user interface for a manager to create a new taxi order.
-//         It guides the user through selecting a subscription and a taxi, then entering order details.
-// Output: A JFrame that facilitates order creation, displaying various validation and success/error messages.
+
 public class CreateOrderFrame extends JFrame {
-    // Effect: Stores the manager who is currently using this frame to create an order.
-    // Output: Reference to the Manager object.
+    
     private Manager currentManager;
 
     // Effect: Initializes the GUI for creating a new order.
     // Output: A visible JFrame with fields for subscription and taxi codes, and buttons to validate and create.
-    //         @param manager The Manager object creating the order.
+    // manager The Manager object creating the order.
     public CreateOrderFrame(Manager manager) {
         super("Create Order");
         this.currentManager = manager;
@@ -81,7 +78,7 @@ public class CreateOrderFrame extends JFrame {
         final Subscription[] selectedSub = new Subscription[1];
 
         // Effect: Defines the action when the "Validate Subscription & Taxi" button is clicked.
-        //         It fetches and validates the entered subscription and taxi codes against system data.
+        // It fetches and validates the entered subscription and taxi codes against system data.
         // Output: Displays success/error messages via JOptionPane. If successful, shows the 'orderDialog'.
         validateBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -158,8 +155,8 @@ public class CreateOrderFrame extends JFrame {
         });
 
         // Effect: Handles the logic when the "Create Order" button inside the dialog is clicked.
-        //         It parses date/time, creates a new Order object, updates taxi availability,
-        //         and adds the order to the manager and system-wide database.
+        // It parses date/time, creates a new Order object, updates taxi availability,
+        // and adds the order to the manager and systemDataBase.
         // Output: Success/error messages; updates system data; disposes both dialog and main frame on success.
         createOrderBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -199,12 +196,10 @@ public class CreateOrderFrame extends JFrame {
                     selectedTaxi[0].setAvailable(false);
                     currentManager.addOrder(newOrder);
 
-                    // Effect: Adds the new order to the global system database.
+                    // Effect: Adds the new order to the systemDataBase database.
                     // Output: Boolean indicating if the order was successfully added (false if order number exists).
                     boolean added = systemDataBase.addOrder(newOrder);
                     if (!added) {
-                        // Effect: Handles cases where the generated order number already exists (highly unlikely with current logic, but good safeguard).
-                        // Output: Error message if order number is a duplicate.
                         JOptionPane.showMessageDialog(null, "Order number already exists. Order was not added.", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
@@ -215,8 +210,6 @@ public class CreateOrderFrame extends JFrame {
                     orderDialog.dispose();
                     dispose();
                 } catch (NumberFormatException ex) {
-                    // Effect: Catches errors from non-numeric input for day, month, or hour.
-                    // Output: Error message prompting for valid numbers.
                     JOptionPane.showMessageDialog(null, "Please enter valid numbers for day/month/hour.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -231,8 +224,6 @@ public class CreateOrderFrame extends JFrame {
             }
         });
 
-        // Effect: Configures basic frame properties.
-        // Output: Frame sized, centered, and set to dispose on close.
         setSize(400, 250);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
