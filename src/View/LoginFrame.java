@@ -126,6 +126,7 @@ public class LoginFrame {
                         }
                         catch(IOException closeExc){
                             closeExc.printStackTrace();
+                            System.out.println("Hello");
                         }
                     }
                 }
