@@ -2,6 +2,10 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Taxi specialization for intercity trips, with supported destinations,
+ * additional pricing, and a maximum trip duration.
+ */
 public class IntercityTaxi extends Taxi {
 	private ArrayList<String> cities;
 	private double extraPrice;

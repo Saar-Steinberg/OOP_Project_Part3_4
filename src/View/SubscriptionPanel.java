@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import Model.*;
-import Control.systemDataBase;
+import Control.SystemDatabase;
 
 public class SubscriptionPanel extends JFrame {
     public SubscriptionPanel(Subscription sub) {
@@ -31,7 +31,7 @@ public class SubscriptionPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 StringBuilder sb = new StringBuilder();
                 // Iterate through all orders to find those belonging to the current subscriber
-                for (Order o : systemDataBase.getOrders()) {
+                for (Order o : SystemDatabase.getOrders()) {
                     if (o.getSubCode().equals(sub.getSubCode())) {
                         // Append order details to the string builder
                         sb.append("Order ID: ").append(o.getOrderNum()).append("\n");
@@ -127,7 +127,7 @@ public class SubscriptionPanel extends JFrame {
 
                 Taxi found = null;
                 // Search for the taxi by code in the database
-                for (Taxi t : systemDataBase.getTaxis()) {
+                for (Taxi t : SystemDatabase.getTaxis()) {
                     if (t.getTaxiCode().equals(taxiCode.trim())) {
                         found = t;
                         break;

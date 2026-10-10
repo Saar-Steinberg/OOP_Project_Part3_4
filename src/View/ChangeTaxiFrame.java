@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import Model.*;
-import Control.systemDataBase;
+import Control.SystemDatabase;
 
 public class ChangeTaxiFrame extends JFrame {
     // Effect: Initializes the frame for the taxi change operation.
@@ -24,14 +24,14 @@ public class ChangeTaxiFrame extends JFrame {
 
         // Effect: Handles the logic when the "Find Order" button is clicked.
         // Performs comprehensive validation and the core order modification.
-        // Output: Updates order data in systemDataBase; displays info/error dialogs; disposes frame on success.
+        // Output: Updates order data in SystemDatabase; displays info/error dialogs; disposes frame on success.
         findOrderBtn.addActionListener(e -> {
             String orderId = orderIdField.getText().trim();
             Order targetOrder = null;
 
             // Effect: Searches for the specified order in the central database.
             // Output: 'targetOrder' reference if found, otherwise 'null'.
-            for (Order o : systemDataBase.getOrders()) {
+            for (Order o : SystemDatabase.getOrders()) {
                 if (o.getOrderNum().equals(orderId)) {
                     targetOrder = o;
                     break;

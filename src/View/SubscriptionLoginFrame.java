@@ -3,7 +3,7 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import Model.*; 
-import Control.systemDataBase; 
+import Control.SystemDatabase;
 
 public class SubscriptionLoginFrame extends JFrame {
     
@@ -28,7 +28,7 @@ public class SubscriptionLoginFrame extends JFrame {
             Subscription found = null; 
 
             // Search for the subscription code in the database
-            for (Subscription s : systemDataBase.getSubscriptions()) {
+            for (Subscription s : SystemDatabase.getSubscriptions()) {
                 if (s.getSubCode().equals(code)) {
                     found = s; 
                     break; 

@@ -2,6 +2,9 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a named taxi station and the taxis currently associated with it.
+ */
 public class Station {
 	private String stationName;
 	private ArrayList<Taxi> taxis;

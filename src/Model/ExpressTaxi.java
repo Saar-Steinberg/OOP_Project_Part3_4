@@ -1,5 +1,9 @@
 package Model;
 
+/**
+ * Taxi specialization for express service, including its city-service flag and
+ * additional price above the base {@link Taxi} fare.
+ */
 public class ExpressTaxi extends Taxi{
 	private boolean cityTaxi ;
 	private double extraPrice;

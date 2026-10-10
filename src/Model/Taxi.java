@@ -1,5 +1,9 @@
 package Model;
 
+/**
+ * Base taxi model containing the vehicle code, availability, and minimum fare.
+ * {@link ExpressTaxi} and {@link IntercityTaxi} specialize this common state.
+ */
 public class Taxi {
 	protected String taxiCode;
 	protected boolean available ; 

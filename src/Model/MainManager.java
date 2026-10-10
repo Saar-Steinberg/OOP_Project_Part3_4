@@ -2,6 +2,10 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * A manager with administrator login details. It inherits the operational
+ * assignments of a regular {@link Manager} while adding a user name and password.
+ */
 public class MainManager extends Manager{
 	private String userName;
 	private String password;
@@ -37,7 +41,7 @@ public class MainManager extends Manager{
 
 	@Override
 	public String toString() {
-		return "MainManager [userName=" + userName + ", password=" + password + ", id=" + id + ", firstName="
+		return "MainManager [userName=" + userName + ", id=" + id + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", taxis="
 				+ taxis + ", orders=" + orders + "]";
 	}

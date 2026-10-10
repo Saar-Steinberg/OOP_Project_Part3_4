@@ -2,6 +2,10 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a regular manager identified by an ID. Managers can be assigned
+ * taxis and orders; {@link MainManager} extends this class with login details.
+ */
 public class Manager {
 	protected String id;
 	protected String firstName;

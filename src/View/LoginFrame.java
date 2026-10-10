@@ -9,7 +9,7 @@ import javax.swing.*;
 import Model.MainManager;
 import Model.Manager;
 import Model.Subscription;
-import Control.systemDataBase;
+import Control.SystemDatabase;
 
 
 public class LoginFrame {
@@ -67,23 +67,23 @@ public class LoginFrame {
                 String username = userText.getText();
                 String password = passText.getText(); 
 
-                //Search for Main Manager in systemDataBase
-                MainManager admin = systemDataBase.findMainManager(username, password);
+                //Search for Main Manager in SystemDatabase
+                MainManager admin = SystemDatabase.findMainManager(username, password);
                 if (admin != null) {
                     loginFrame.dispose(); 
                     MainManagerFrame.launchMainManagerPanel(); 
                     return;
                 }
 
-                //Search for Regular Manager in systemDataBase
-                Manager regularManager = systemDataBase.findRegularManagerById(username);
+                //Search for Regular Manager in SystemDatabase
+                Manager regularManager = SystemDatabase.findRegularManagerById(username);
                 if(regularManager != null && password.isEmpty()){
                     loginFrame.dispose();
                     new RegularManagerFrame(regularManager);
                     return;
                 }
 
-                //If no manager was found in systemDataBase - search in SystemManagers file
+                //If no manager was found in SystemDatabase - search in SystemManagers file
                 BufferedReader br = null;
                 try{
                     br = new BufferedReader(new FileReader("SystemManagers.txt"));
@@ -98,7 +98,7 @@ public class LoginFrame {
                         if(parts[0].equals("M") && parts.length >=8){ //If this is a Main Manager
                             if(parts[6].equals(username) && parts[7].equals(password)){
                                 MainManager newLoggedMainManager = new MainManager(parts[1], parts[2], parts[3], parts[5], parts[4], parts[6], parts[7]);
-                                systemDataBase.addManager(newLoggedMainManager);
+                                SystemDatabase.addManager(newLoggedMainManager);
                                 loginFrame.dispose();
                                 MainManagerFrame.launchMainManagerPanel();
                                 return;
@@ -107,7 +107,7 @@ public class LoginFrame {
                         else if(parts[0].equals("R") && parts.length >= 6){ //If this is a Regular Manager
                             if(parts[1].equals(username) && password.isEmpty()){
                                 Manager newLoggedManager = new Manager(parts[1], parts[2], parts[3], parts[5], parts[4]);
-                                systemDataBase.addManager(newLoggedManager);
+                                SystemDatabase.addManager(newLoggedManager);
                                 loginFrame.dispose();
                                 new RegularManagerFrame(newLoggedManager);
                                 return;
@@ -162,7 +162,7 @@ public class LoginFrame {
                     public void actionPerformed(ActionEvent ev) {
                         String subCode = subField.getText().trim();
                         // Effect: Iterates through all subscriptions to find a match.
-                        for (Subscription s : systemDataBase.getSubscriptions()) {
+                        for (Subscription s : SystemDatabase.getSubscriptions()) {
                             if (s.getSubCode().equals(subCode)) {
                                 subFrame.dispose(); 
                                 loginFrame.dispose(); 
@@ -181,7 +181,7 @@ public class LoginFrame {
                                 String[] parts = line.split(" ");
                                 if(parts.length >= 5 && subCode.equals(parts[0])){
                                     Subscription newSubFromFile = new Subscription(parts[0], parts[1], parts[2], parts[3], parts[4]);
-                                    systemDataBase.addSubscription(newSubFromFile);
+                                    SystemDatabase.addSubscription(newSubFromFile);
                                     subFrame.dispose();
                                     loginFrame.dispose();
                                     new SubscriptionPanel(newSubFromFile);
@@ -218,7 +218,7 @@ public class LoginFrame {
             }
         });
 
-        // Fill systemDataBase with data
+        // Fill SystemDatabase with data
         MainManagerFrame.loadInitialData(); 
 
         loginFrame.setVisible(true);

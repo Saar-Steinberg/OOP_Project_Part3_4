@@ -1,5 +1,9 @@
 package Model;
 
+/**
+ * Represents a taxi booking linked to a subscriber, responsible manager, and
+ * assigned taxi, together with its scheduled time and calculated price.
+ */
 public class Order {
 	private String orderNum;
 	private String managerCode;

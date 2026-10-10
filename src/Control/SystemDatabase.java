@@ -11,10 +11,12 @@ import Model.Station;
 import Model.Subscription;
 import Model.Taxi;
 
-        // Effect: Represents the central data storage for the entire system.
-        //         Holds collections of all entities like managers, taxis, stations, orders, and subscriptions.
-        // Output: Provides static methods to interact with and manage this data globally.
-        public class systemDataBase {
+/**
+ * Central in-memory store for the application's managers, taxis, stations,
+ * subscriptions, and orders. The Swing views use its static collections to
+ * coordinate relationships such as taxis and orders assigned to subscriptions.
+ */
+public class SystemDatabase {
 
             // --- Data Collections ---
 
@@ -209,11 +211,11 @@ import Model.Taxi;
                 return ordersPerSub;
             }
 
-            // Effect: Generates a string representation of the systemDataBase's current state.
+            // Effect: Generates a string representation of the SystemDatabase's current state.
             // Output: A String detailing the contents of all internal data collections for debugging.
             @Override
             public String toString() {
-                return "systemDataBase [managers=" + managers + ", taxis=" + taxis
+                return "SystemDatabase [managers=" + managers + ", taxis=" + taxis
                         + ", taxisPerSub=" + taxisPerSub + ", stations=" + stations + ", orders=" + orders
                         + ", subscriptions=" + subscriptions + ", ordersPerSub=" + ordersPerSub + "]";
             }

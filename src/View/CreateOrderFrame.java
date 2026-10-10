@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import Model.*;
-import Control.systemDataBase;
+import Control.SystemDatabase;
 
 
 public class CreateOrderFrame extends JFrame {
@@ -85,11 +85,11 @@ public class CreateOrderFrame extends JFrame {
                 String subCode = subCodeField.getText().trim();
                 String taxiCode = taxiCodeField.getText().trim();
 
-                // Effect: Searches for the subscription in systemDataBase.
+                // Effect: Searches for the subscription in SystemDatabase.
                 // Output: Sets 'selectedSub[0]' to the found Subscription or null.
                 selectedSub[0] = null;
-                for (int i = 0; i < systemDataBase.getSubscriptions().size(); i++) {
-                    Subscription s = systemDataBase.getSubscriptions().get(i);
+                for (int i = 0; i < SystemDatabase.getSubscriptions().size(); i++) {
+                    Subscription s = SystemDatabase.getSubscriptions().get(i);
                     if (s.getSubCode().equals(subCode)) {
                         selectedSub[0] = s;
                         break;
@@ -103,11 +103,11 @@ public class CreateOrderFrame extends JFrame {
                     return;
                 }
 
-                // Effect: Searches for the taxi in systemDataBase.
+                // Effect: Searches for the taxi in SystemDatabase.
                 // Output: Sets 'selectedTaxi[0]' to the found Taxi or null.
                 selectedTaxi[0] = null;
-                for (int i = 0; i < systemDataBase.getTaxis().size(); i++) {
-                    Taxi t = systemDataBase.getTaxis().get(i);
+                for (int i = 0; i < SystemDatabase.getTaxis().size(); i++) {
+                    Taxi t = SystemDatabase.getTaxis().get(i);
                     if (t.getTaxiCode().equals(taxiCode)) {
                         selectedTaxi[0] = t;
                         break;
@@ -156,7 +156,7 @@ public class CreateOrderFrame extends JFrame {
 
         // Effect: Handles the logic when the "Create Order" button inside the dialog is clicked.
         // It parses date/time, creates a new Order object, updates taxi availability,
-        // and adds the order to the manager and systemDataBase.
+        // and adds the order to the manager and SystemDatabase.
         // Output: Success/error messages; updates system data; disposes both dialog and main frame on success.
         createOrderBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -183,7 +183,7 @@ public class CreateOrderFrame extends JFrame {
 
                     // Effect: Generates a unique order number and sets initial price.
                     // Output: String for order number, double for price.
-                    String orderNum = "O" + (systemDataBase.getOrders().size() + 1);
+                    String orderNum = "O" + (SystemDatabase.getOrders().size() + 1);
                     double price = selectedTaxi[0].getMinPrice();
 
                     // Effect: Creates a new Order object with collected details.
@@ -196,9 +196,9 @@ public class CreateOrderFrame extends JFrame {
                     selectedTaxi[0].setAvailable(false);
                     currentManager.addOrder(newOrder);
 
-                    // Effect: Adds the new order to the systemDataBase database.
+                    // Effect: Adds the new order to the SystemDatabase database.
                     // Output: Boolean indicating if the order was successfully added (false if order number exists).
-                    boolean added = systemDataBase.addOrder(newOrder);
+                    boolean added = SystemDatabase.addOrder(newOrder);
                     if (!added) {
                         JOptionPane.showMessageDialog(null, "Order number already exists. Order was not added.", "Error", JOptionPane.ERROR_MESSAGE);
                         return;

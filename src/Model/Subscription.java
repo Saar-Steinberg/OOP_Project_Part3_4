@@ -1,5 +1,9 @@
 package Model;
 
+/**
+ * Represents a subscriber whose unique code links subscriptions to taxis and
+ * orders held by the central data store.
+ */
 public class Subscription {
 	private String subCode;
 	private String firstName;

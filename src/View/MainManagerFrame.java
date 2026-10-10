@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import Control.InvalidDataException;
-import Control.systemDataBase;
+import Control.SystemDatabase;
 import Model.Subscription; 
 import Model.Manager;
 import Model.Order;
@@ -132,7 +133,7 @@ public class MainManagerFrame {
 
                         // Create and add manager based on type
                         // This block creates either a `MainManager` or a `Manager` object based on the 'isMain' flag.
-                        // It then attempts to add this new manager to the `systemDataBase`.
+                        // It then attempts to add this new manager to the `SystemDatabase`.
                         // Success or failure messages are displayed to the user.
 
                         if (isMain) {
@@ -143,14 +144,14 @@ public class MainManagerFrame {
                                 return;
                             }
                             MainManager mm = new MainManager(id, fname, lname, phone, addr, username, password);
-                            if (systemDataBase.addManager(mm)) {
+                            if (SystemDatabase.addManager(mm)) {
                                 JOptionPane.showMessageDialog(null, "Main Manager added successfully.");
                             } else {
                                 JOptionPane.showMessageDialog(null, "Failed to add Main Manager. ID might already exist.", "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
                             Manager m = new Manager(id, fname, lname, phone, addr);
-                            if (systemDataBase.addManager(m)) {
+                            if (SystemDatabase.addManager(m)) {
                                 JOptionPane.showMessageDialog(null, "Regular Manager added successfully.");
                             } else {
                                 JOptionPane.showMessageDialog(null, "Failed to add Regular Manager. ID might already exist.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -277,7 +278,7 @@ public class MainManagerFrame {
 
                             // Attempt to add the newly created taxi object to the system database.
                             // Displays success or failure messages to the user.
-                            if (systemDataBase.addTaxi(newTaxi)) {
+                            if (SystemDatabase.addTaxi(newTaxi)) {
                                 JOptionPane.showMessageDialog(null, "Taxi added successfully.");
                                 taxiFrame.dispose(); 
                             } else {
@@ -325,7 +326,7 @@ public class MainManagerFrame {
             }
 
             /**
-             * Loads initial sample data into the `systemDataBase`.
+             * Loads initial sample data into the `SystemDatabase`.
              * This includes managers, taxis, subscriptions and orders for testing purposes.
              */
             public static void loadInitialData() {
@@ -336,11 +337,11 @@ public class MainManagerFrame {
                 Manager managerMrPink = new Manager("M-RD02", "Mr.", "Pink", "054-4445556", "456 Diamond District, LA");
                 Manager managerMrBlonde = new Manager("M-RD03", "Mr.", "Blonde", "050-7778889", "789 Hollywood Hills, CA");
 
-                systemDataBase.addManager(mainManagerJules);
-                systemDataBase.addManager(mainManagerVince);
-                systemDataBase.addManager(managerMrWhite);
-                systemDataBase.addManager(managerMrPink);
-                systemDataBase.addManager(managerMrBlonde);
+                SystemDatabase.addManager(mainManagerJules);
+                SystemDatabase.addManager(mainManagerVince);
+                SystemDatabase.addManager(managerMrWhite);
+                SystemDatabase.addManager(managerMrPink);
+                SystemDatabase.addManager(managerMrBlonde);
 
                 Taxi taxiBlueSky = new Taxi("T-KB01", true, 60.0); 
                 Taxi taxiChevyNova = new Taxi("T-DP01", true, 65.0); 
@@ -349,12 +350,12 @@ public class MainManagerFrame {
                 IntercityTaxi taxiHondaCivic = new IntercityTaxi("T-PF02", true, 100.0, 3.0, 350);
                 IntercityTaxi taxiGimpMobile = new IntercityTaxi("T-PF03", true, 95.0, 2.8, 450);
 
-                systemDataBase.addTaxi(taxiBlueSky);
-                systemDataBase.addTaxi(taxiChevyNova);
-                systemDataBase.addTaxi(taxiRedApple);
-                systemDataBase.addTaxi(taxiBigKahuna);
-                systemDataBase.addTaxi(taxiHondaCivic);
-                systemDataBase.addTaxi(taxiGimpMobile);
+                SystemDatabase.addTaxi(taxiBlueSky);
+                SystemDatabase.addTaxi(taxiChevyNova);
+                SystemDatabase.addTaxi(taxiRedApple);
+                SystemDatabase.addTaxi(taxiBigKahuna);
+                SystemDatabase.addTaxi(taxiHondaCivic);
+                SystemDatabase.addTaxi(taxiGimpMobile);
 
 
                 Subscription subBeatrix = new Subscription("S-KB01", "Beatrix", "Kiddo", "El Paso, Texas", "050-2223334");
@@ -363,11 +364,11 @@ public class MainManagerFrame {
                 Subscription subHans = new Subscription("S-IB03", "Hans", "Landa", "Berlin, Germany", "050-8889990");
                 Subscription subDjango = new Subscription("S-DJ01", "Django", "Freeman", "Candyland, Mississippi", "052-1212121");
 
-                systemDataBase.addSubscription(subBeatrix);
-                systemDataBase.addSubscription(subShosanna);
-                systemDataBase.addSubscription(subAldo);
-                systemDataBase.addSubscription(subHans);
-                systemDataBase.addSubscription(subDjango);
+                SystemDatabase.addSubscription(subBeatrix);
+                SystemDatabase.addSubscription(subShosanna);
+                SystemDatabase.addSubscription(subAldo);
+                SystemDatabase.addSubscription(subHans);
+                SystemDatabase.addSubscription(subDjango);
 
                 managerMrWhite.addTaxi(taxiChevyNova);
                 managerMrWhite.addTaxi(taxiRedApple);
@@ -380,11 +381,11 @@ public class MainManagerFrame {
 
                 Order ShosannaOrd = new Order("ORD-001", managerMrPink.getId(), 10, 7, 20, subShosanna.getSubCode(), taxiBigKahuna, 25);
                 taxiBigKahuna.setAvailable(false);
-                systemDataBase.addOrder(ShosannaOrd);
+                SystemDatabase.addOrder(ShosannaOrd);
 
                 Order subHansOrder = new Order("ORD-002", managerMrBlonde.getId(), 6, 1, 10, subHans.getSubCode(), taxiHondaCivic, 60);
                 taxiHondaCivic.setAvailable(false);
-                systemDataBase.addOrder(subHansOrder);
+                SystemDatabase.addOrder(subHansOrder);
             }
 
             /**
@@ -571,7 +572,7 @@ public class MainManagerFrame {
                                 }
                                 else {
                                     Subscription s = new Subscription(id, fname, lname, addr, phone);
-                                    if (systemDataBase.addSubscription(s)) {
+                                    if (SystemDatabase.addSubscription(s)) {
                                         JOptionPane.showMessageDialog(null, "Subscription added successfully.");
                                         addSubscriptionFrame.dispose();
                                     } else {
@@ -693,7 +694,7 @@ public class MainManagerFrame {
                 showSubscriptionsBtn.addActionListener(new ActionListener() {
                  
                     public void actionPerformed(ActionEvent e) {
-                        ArrayList<Subscription> subs = systemDataBase.getSubscriptions();
+                        ArrayList<Subscription> subs = SystemDatabase.getSubscriptions();
                         // Sort subscriptions by last name
                         subs.sort(new Comparator<Subscription>() {
                             public int compare(Subscription s1, Subscription s2) {
@@ -718,7 +719,7 @@ public class MainManagerFrame {
                 showManagersBtn.addActionListener(new ActionListener() {
                    
                     public void actionPerformed(ActionEvent e) {
-                        ArrayList<Manager> managers = systemDataBase.getManagers();
+                        ArrayList<Manager> managers = SystemDatabase.getManagers();
                         // Sort managers by first name
                         managers.sort(new Comparator<Manager>() {
                             public int compare(Manager m1, Manager m2) {
@@ -743,7 +744,7 @@ public class MainManagerFrame {
                 showTaxisBtn.addActionListener(new ActionListener() {
                   
                     public void actionPerformed(ActionEvent e) {
-                        ArrayList<Taxi> taxis = systemDataBase.getTaxis();
+                        ArrayList<Taxi> taxis = SystemDatabase.getTaxis();
                         // Sort taxis by taxi code
                         taxis.sort(new Comparator<Taxi>() {
                             public int compare(Taxi t1, Taxi t2) {
@@ -797,8 +798,8 @@ public class MainManagerFrame {
                             public void actionPerformed(ActionEvent evt) {
                                 String taxiCode = taxiField.getText().trim();
                                 String managerId = managerField.getText().trim();
-                                Taxi foundTaxi = systemDataBase.findTaxiByCode(taxiCode); // Find taxi by code
-                                Manager foundManager = systemDataBase.findManagerById(managerId); // Find manager by ID
+                                Taxi foundTaxi = SystemDatabase.findTaxiByCode(taxiCode); // Find taxi by code
+                                Manager foundManager = SystemDatabase.findManagerById(managerId); // Find manager by ID
 
                                 if (foundTaxi != null && foundManager != null) {
                                     if (foundManager.addTaxi(foundTaxi)) {
@@ -862,13 +863,13 @@ public class MainManagerFrame {
                     }
                     //Checking if code already exists
                     String ID = parts[1];
-                    if(systemDataBase.findManagerById(ID) != null){
+                    if(SystemDatabase.findManagerById(ID) != null){
                         throw new InvalidDataException("Line + " + lineNum + "has an existing Manager");
                     }
                     //If everything is legal - read managers from file
                     if(parts[0].equals("R")){
                         Manager newManager = new Manager(parts[1], parts[2], parts[3], parts[5], parts[4]);
-                        boolean added = systemDataBase.addManager(newManager);
+                        boolean added = SystemDatabase.addManager(newManager);
                         if(added)
                             System.out.println("Manager " + parts[1] + "Added succesfully");
                         else
@@ -876,7 +877,7 @@ public class MainManagerFrame {
                     }
                     else if(parts[0].equals("M")){
                         MainManager newMainManager = new MainManager(parts[1], parts[2], parts[3], parts[5], parts[4], parts[6], parts[7]);
-                        boolean added = systemDataBase.addManager(newMainManager);
+                        boolean added = SystemDatabase.addManager(newMainManager);
                         if(added)
                             System.out.println("Main Manager " + parts[1] + "Added succesfully");
                         else
@@ -926,12 +927,12 @@ public class MainManagerFrame {
                             throw new InvalidDataException("Line + " + lineNum + "has not enough data");
 
                         String subID = parts[0];
-                        if(systemDataBase.getSubsciptionByID(subID) != null){ // If sub already exists
+                        if(SystemDatabase.getSubsciptionByID(subID) != null){ // If sub already exists
                             throw new InvalidDataException("Line + " + lineNum + "has an existing member");
                         }
                         // If everything is legal - read member from file
                         Subscription newSubscription = new Subscription(parts[0], parts[1], parts[2], parts[3], parts[4]);
-                        boolean added = systemDataBase.addSubscription(newSubscription);
+                        boolean added = SystemDatabase.addSubscription(newSubscription);
                         if(added)
                             System.out.println("Subscriber " + parts[1] + "Added Succesfully");
                         else
@@ -967,14 +968,33 @@ public class MainManagerFrame {
         //Action Listener for Download Regular Managers button
         downloadManagersBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                // Sort the managers by ID
-                ArrayList <Manager> allManagers = systemDataBase.getManagers();
+                // Keep existing Main Manager rows so their login details are not lost.
+                ArrayList<String> mainManagerLines = new ArrayList<>();
+                File managersFile = new File("SystemManagers.txt");
+                if (managersFile.exists()) {
+                    try (BufferedReader reader = new BufferedReader(new FileReader(managersFile))) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            String[] parts = line.split(" ");
+                            if (parts.length >= 8 && parts[0].equals("M")) {
+                                mainManagerLines.add(line);
+                            }
+                        }
+                    } catch (IOException ioE) {
+                        JOptionPane.showMessageDialog(null, "Error reading existing managers: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+
+                // Sort the regular managers by ID before replacing their rows.
+                ArrayList <Manager> allManagers = SystemDatabase.getManagers();
                 ArrayList <Manager> sortedRegularManagers = allManagers.stream().filter(m -> !(m instanceof MainManager)).sorted((m1,m2) -> m1.getId().compareTo(m2.getId())).collect(Collectors.toCollection(ArrayList::new));
 
-                //Writing and overiding in file
-                BufferedWriter bw = null;
-                try{
-                    bw = new BufferedWriter(new FileWriter("SystemManagers.txt"));
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter("SystemManagers.txt"))) {
+                    for (String line : mainManagerLines) {
+                        bw.write(line);
+                        bw.newLine();
+                    }
                     for(Manager m : sortedRegularManagers){
                         String line = "R " + m.getId() + " " + m.getFirstName() + " " + m.getLastName() + " " + m.getAddress() + " " + m.getPhone();
                         bw.write(line);
@@ -986,16 +1006,6 @@ public class MainManagerFrame {
                     ioE.printStackTrace();;
                     JOptionPane.showMessageDialog(null, "Error writing to file: " + ioE.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
                 }
-                finally{
-                    if(bw != null){
-                        try{
-                            bw.close();
-                        }
-                        catch(IOException closeEx){
-                            closeEx.printStackTrace();
-                        }
-                    }
-                }
 
             }
         });
@@ -1003,7 +1013,7 @@ public class MainManagerFrame {
         downloadSubscribersBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 // Sort subscriptions by Last Name
-                ArrayList <Subscription> allSubscriptions = systemDataBase.getSubscriptions();
+                ArrayList <Subscription> allSubscriptions = SystemDatabase.getSubscriptions();
                 ArrayList <Subscription> sortedSubscriptions = allSubscriptions.stream().sorted((s1,s2) -> s1.getLastName().compareTo(s2.getLastName())).collect(Collectors.toCollection(ArrayList::new));
 
                 //Writing and Overiding in file
@@ -1039,7 +1049,7 @@ public class MainManagerFrame {
             public void actionPerformed(ActionEvent e){
 
                 //Sort all orders by orderNum
-                ArrayList<Order> allOrders = systemDataBase.getOrders();
+                ArrayList<Order> allOrders = SystemDatabase.getOrders();
                 ArrayList<Order> sortedOrders = allOrders.stream().sorted((o1,o2) -> o1.getOrderNum().compareTo(o2.getOrderNum())).collect(Collectors.toCollection(ArrayList::new));
 
                 //Writing and Overiding in file
@@ -1074,9 +1084,9 @@ public class MainManagerFrame {
         downloadTaxiesBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 //Sort Taxies by code
-                ArrayList<Taxi> sortedTaxies = systemDataBase.getTaxis().stream().sorted((t1,t2) -> t1.getTaxiCode().compareTo(t2.getTaxiCode())).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<Taxi> sortedTaxies = SystemDatabase.getTaxis().stream().sorted((t1,t2) -> t1.getTaxiCode().compareTo(t2.getTaxiCode())).collect(Collectors.toCollection(ArrayList::new));
                 
-                ArrayList<Manager> allManagers = systemDataBase.getManagers();
+                ArrayList<Manager> allManagers = SystemDatabase.getManagers();
 
                 BufferedWriter bw = null;
                 try{
